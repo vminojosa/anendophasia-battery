@@ -1,0 +1,38 @@
+{
+    "name": "anendophasia-task-switching",
+    "version": "0.0.1",
+    "description": "the task switching task used to characterize anendophasia by Nedergaard and Lupyan (2024)",
+    "type": "module",
+    "main": "dist/index.mjs",
+    "types": "dist/index.d.ts",
+    "unpkg": "dist/index.browser.min.js",
+    "scripts": {
+        "build": "tsup src/index.ts --format esm,iife --sourcemap --dts --treeshake --clean --global-name jsPsychTimelineAnendophasiaTaskSwitching"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/vminojosa/personal-timelines",
+        "directory": "npm"
+    },
+    "keywords": [
+        "jsPsych"
+    ],
+    "author": {
+        "name": "Valeria Inojosa",
+        "url": ""
+    },
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/vminojosa/personal-timelines/issues"
+    },
+    "homepage": "https://github.com/vminojosa/personal-timelines/tree/main/npm/anendophasia-task-switching/README.md",
+    "devDependencies": {
+        "@jspsych/config": "^3.2.2",
+        "jspsych": "^8.2.2",
+        "tsup": "^6.7.0",
+        "typescript": "^5.0.2"
+    },
+    "dependencies": {
+        "@jspsych/plugin-survey-text": "^2.1.0"
+    }
+}

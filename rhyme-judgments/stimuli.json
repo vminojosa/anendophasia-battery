@@ -1,0 +1,194 @@
+[
+    {
+        "img": "../img/blue.png",
+        "word": "pope",
+        "endingPhonetic": "oʊp",
+        "endingOrthographic": "ope",
+        "name_agreement": 0.45,
+        "target_frequency": 3.6810
+    },
+    {
+        "img": "../img/blue.png",
+        "word": "rope",
+        "endingPhonetic": "oʊp",
+        "endingOrthographic": "ope",
+        "name_agreement": 1.00,
+        "target_frequency": 3.6810
+    },
+    {
+        "img": "../img/blue.png",
+        "word": "soap",
+        "endingPhonetic": "oʊp",
+        "endingOrthographic": "oap",
+        "name_agreement": 0.80,
+        "target_frequency": 3.6810
+    },
+    {
+        "img": "../img/blue.png",
+        "word": "bell",
+        "endingPhonetic": "ɛɫ",
+        "endingOrthographic": "ell",
+        "name_agreement": 0.90,
+        "target_frequency": 3.6810
+    },
+    {
+        "img": "../img/blue.png",
+        "word": "bag",
+        "endingPhonetic": "æɡ",
+        "endingOrthographic": "ag",
+        "name_agreement": 0.95,
+        "target_frequency": 3.6810
+    },
+    {
+        "img": "../img/blue.png",
+        "word": "bear",
+        "endingPhonetic": "ɛɹ",
+        "endingOrthographic": "ear",
+        "name_agreement": 0.95,
+        "target_frequency": 3.6810
+    },
+    {
+        "img": "../img/blue.png",
+        "word": "bed",
+        "endingPhonetic": "ɛd",
+        "endingOrthographic": "ed",
+        "name_agreement": 0.95,
+        "target_frequency": 3.6810
+    },
+    {
+        "img": "../img/blue.png",
+        "word": "beer",
+        "endingPhonetic": "ɪɹ",
+        "endingOrthographic": "eer",
+        "name_agreement": 0.75,
+        "target_frequency": 3.6810
+    },
+    {
+        "img": "../img/blue.png",
+        "word": "bone",
+        "endingPhonetic": "oʊn",
+        "endingOrthographic": "one",
+        "name_agreement": 0.95,
+        "target_frequency": 3.6810
+    },
+    {
+        "img": "../img/blue.png",
+        "word": "box",
+        "endingPhonetic": "ɑks",
+        "endingOrthographic": "ox",
+        "name_agreement": 0.95,
+        "target_frequency": 3.6810
+    },
+    {
+        "img": "../img/blue.png",
+        "word": "brain",
+        "endingPhonetic": "eɪn",
+        "endingOrthographic": "ain",
+        "name_agreement": 0.95,
+        "target_frequency": 3.6810
+    },
+    {
+        "img": "../img/blue.png",
+        "word": "bread",
+        "endingPhonetic": "ɛd",
+        "endingOrthographic": "ead",
+        "name_agreement": 0.90 ,
+        "target_frequency": 3.6810
+    },
+    {
+        "img": "../img/blue.png",
+        "word": "cab",
+        "endingPhonetic": "æb",
+        "endingOrthographic": "ab",
+        "name_agreement": 0.05,
+        "target_frequency": 3.6810
+    },
+    {
+        "img": "../img/blue.png",
+        "word": "cat",
+        "endingPhonetic": "æt",
+        "endingOrthographic": "at",
+        "name_agreement": 0.90,
+        "target_frequency": 3.6810
+    },
+    {
+        "img": "../img/blue.png",
+        "word": "chain",
+        "endingPhonetic": "eɪn",
+        "endingOrthographic": "ain",
+        "name_agreement": 0.95,
+        "target_frequency": 3.6810
+    },
+    {
+        "img": "../img/blue.png",
+        "word": "chair",
+        "endingPhonetic": "ɛɹ",
+        "endingOrthographic": "air",
+        "name_agreement": 0.95,
+        "target_frequency": 3.6810
+    },
+    {
+        "img": "../img/blue.png",
+        "word": "claw",
+        "endingPhonetic": "ɔ",
+        "endingOrthographic": "aw",
+        "name_agreement": 0.55,
+        "target_frequency": 3.6810
+    },
+    {
+        "img": "../img/blue.png",
+        "word": "clock",
+        "endingPhonetic": "ɑk",
+        "endingOrthographic": "ock",
+        "name_agreement": 0.95,
+        "target_frequency": 3.6810
+    },
+    {
+        "img": "../img/blue.png",
+        "word": "cone",
+        "endingPhonetic": "oʊn",
+        "endingOrthographic": "one",
+        "name_agreement": 0.70,
+        "target_frequency": 3.6810
+    },
+    {
+        "img": "../img/blue.png",
+        "word": "crab",
+        "endingPhonetic": "æb",
+        "endingOrthographic": "ab",
+        "name_agreement": 0.95,
+        "target_frequency": 3.6810
+    },
+    {
+        "img": "../img/blue.png",
+        "word": "crane",
+        "endingPhonetic": "eɪn",
+        "endingOrthographic": "ane",
+        "name_agreement": 0.70,
+        "target_frequency": 3.6810
+    },
+    {
+        "img": "../img/blue.png",
+        "word": "dart",
+        "endingPhonetic": "ɑɹt",
+        "endingOrthographic": "art",
+        "name_agreement": 0.90,
+        "target_frequency": 3.6810
+    },
+    {
+        "img": "../img/blue.png",
+        "word": "deer",
+        "endingPhonetic": "ɪɹ",
+        "endingOrthographic": "eer",
+        "name_agreement": 0.65,
+        "target_frequency": 3.6810
+    },
+    {
+        "img": "../img/blue.png",
+        "word": "door",
+        "endingPhonetic": "ɔɹ",
+        "endingOrthographic": "oor",
+        "name_agreement": 0.95,
+        "target_frequency": 3.6810
+    }
+]

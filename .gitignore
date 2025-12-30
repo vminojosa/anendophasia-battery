@@ -1,0 +1,14 @@
+#Mac OS files
+.DS_Store
+
+#dependencies
+node_modules/
+
+#build output
+dist
+
+#messing with html
+test.html
+
+#assets
+img

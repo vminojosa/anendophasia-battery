@@ -1,0 +1,151 @@
+[
+    {
+        "prompt": "I often enjoy the use of mental pictures to reminisce",
+        "factor": "visual",
+        "visual": 0.785,
+        "verbal": 0.060,
+        "orthographic": 0.101,
+        "manipulation": 0.086
+    },{
+        "prompt": "I can close my eyes and easily picture a scene that I have experienced",
+        "factor": "visual",
+        "visual": 0.753,
+        "verbal": 0.026,
+        "orthographic": 0.139,
+        "manipulation": 0.096
+    },{
+        "prompt": "My mental images are very vivid and photographic",
+        "factor": "visual",
+        "visual": 0.740,
+        "verbal": 0.178,
+        "orthographic": 0.230,
+        "manipulation": 0.018
+    },{
+        "prompt": "The old saying “A picture is worth a thousand words” is certainly true for me",
+        "factor": "visual",
+        "visual": 0.685,
+        "verbal": 0.095,
+        "orthographic": 0.066,
+        "manipulation": 0.206
+    },{
+        "prompt": "When I think about someone I know well, I instantly see their face in my mind",
+        "factor": "visual",
+        "visual": 0.680,
+        "verbal": 0.023,
+        "orthographic": 0.120,
+        "manipulation": 0.063
+    },{
+        "prompt": "I often use mental images or pictures to help me remember things",
+        "factor": "visual",
+        "visual": 0.665,
+        "verbal": 0.097,
+        "orthographic": 0.140,
+        "manipulation": 0.074
+    },{
+        "prompt": "My memories are mainly visual in nature",
+        "factor": "visual",
+        "visual": 0.638,
+        "verbal": 0.046,
+        "orthographic": 0.001,
+        "manipulation": 0.004
+    },{
+        "prompt": "When traveling to get to somewhere I tend to think more visually than verbally",
+        "factor": "visual",
+        "visual": 0.612,
+        "verbal": 0.153,
+        "orthographic": 0.010,
+        "manipulation": 0.001
+    },{
+        "prompt": "If I talk to myself in my head it is usually accompanied by visual imagery",
+        "factor": "visual",
+        "visual": 0.542,
+        "verbal": 0.077,
+        "orthographic": 0.332,
+        "manipulation": 0.166
+    },{
+        "prompt": "If I imagine my memories visually they are more often static than moving",
+        "factor": "visual",
+        "visual": 0.418,
+        "verbal": 0.043,
+        "orthographic": 0.137,
+        "manipulation": 0.220
+    },{
+        "prompt": "If I am walking somewhere by myself, I often have a silent conversation with myself",
+        "factor": "verbal"
+    },{
+        "prompt": "If I am walking somewhere by myself, I frequently think of conversations that I’ve recently had",
+        "factor": "verbal"
+    },{
+        "prompt": "My inner speech helps my imagination",
+        "factor": "verbal"
+    },{
+        "prompt": "I tend to think things through verbally when I am relaxing",
+        "factor": "verbal"
+    },{
+        "prompt": "When thinking about a social problem, I often talk it through in my head",
+        "factor": "verbal"
+    },{
+        "prompt": "I like to give myself some down time to talk through thoughts in my mind",
+        "factor": "verbal"
+    },{
+        "prompt": "I hear words in my \"mind's ear\" when I think",
+        "factor": "verbal"
+    },{
+        "prompt": "I hear words in my \"mind's ear\" when I think",
+        "factor": "verbal"
+    },{
+        "prompt": "I rarely vocalize thoughts in my mind",
+        "factor": "verbal"
+    },{
+        "prompt": "I often talk to myself internally while watching TV",
+        "factor": "verbal"
+    },{
+        "prompt": "My memories often involve conversations I've had",
+        "factor": "verbal"
+    },{
+        "prompt": "When I read, I tend to hear a voice in my \"mind's ear\"",
+        "factor": "verbal"
+    },{
+        "prompt": "When I hear someone talking, I see words written down in my mind",
+        "factor": "orthographic"
+    },{
+        "prompt": "I see words in my \"mind's eye\" when I think",
+        "factor": "orthographic"
+    },{
+        "prompt": "When I am introduced to someone for the first time, I imagine what their name would look like when written down",
+        "factor": "orthographic"
+    },{
+        "prompt": "A strategy I use to help me remember written material is imagining what the writing looks like",
+        "factor": "orthographic"
+    },{
+        "prompt": "I hear a running summary of everything I am doing in my head",
+        "factor": "orthographic"
+    },{
+        "prompt": "I rehearse in my mind how someone might respond to a text message before I send it",
+        "factor": "orthographic"
+    },{
+        "prompt": "I can easily imagine and mentally rotate three-dimensional geometric figures",
+        "factor": "manipulation"
+    },{
+        "prompt": "I can easily choose to imagine this sentence in my mind pronounced unnaturally slowly",
+        "factor": "manipulation"
+    },{
+        "prompt": "In school, I had no problems with geometry",
+        "factor": "manipulation"
+    },{
+        "prompt": "It is easy for me to imagine the sensation of licking a brick",
+        "factor": "manipulation"
+    },{
+        "prompt": "I find it difficult to imagine how a three-dimensional geometric figure would exactly look like when rotated",
+        "factor": "manipulation"
+    },{
+        "prompt": "I can easily imagine someone clearly talking, and then imagine the same voice with a heavy cold",
+        "factor": "manipulation"
+    },{
+        "prompt": "I think I have a large vocabulary in my native language compared to others",
+        "factor": "manipulation"
+    },{
+        "prompt": "I can easily imagine the sound of a trumpet getting louder",
+        "factor": "manipulation"
+    }
+]

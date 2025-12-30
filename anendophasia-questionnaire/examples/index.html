@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>jsPsychTimelineAnendophasiaQuestionnaire Example</title>
+  <script src="https://unpkg.com/jspsych"></script>
+  <script src="../dist/index.global.js"></script>
+  <!-- Load the published timeline package here, e.g.
+<script src="https://unpkg.com/anendophasia-questionnaire"></script>
+<script src="../dist/index.global.js"></script> -->
+  <link rel="stylesheet" href="https://unpkg.com/jspsych/css/jspsych.css">
+</head>
+
+<body></body>
+<script>
+  const jsPsych = initJsPsych({
+    on_finish: function() {
+      jsPsych.data.displayData();
+    }
+  });
+
+  const task = jsPsychTimelineAnendophasiaQuestionnaire.createTimeline(jsPsych, { 
+    factors: ['verbal'],
+    num_questions: [13],
+  });
+
+  jsPsych.run([task])
+</script>
+
+</html>

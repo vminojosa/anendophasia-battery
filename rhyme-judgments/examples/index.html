@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>jsPsychTimelineRhymeJudgments Example</title>
+  <script src="https://unpkg.com/jspsych"></script>
+  <script src="../dist/index.global.js"></script>
+  <!-- Load the published timeline package here, e.g.
+<script src="https://unpkg.com/rhyme-judgments"></script>
+<script src="../dist/index.global.js"></script> -->
+  <link rel="stylesheet" href="https://unpkg.com/jspsych/css/jspsych.css">
+</head>
+
+<body></body>
+<script>
+  const jsPsych = initJsPsych();
+
+  const task = jsPsychTimelineRhymeJudgments.createTimeline(jsPsych, {
+    numTrials: 10,
+    percentPhonetic: 0.3,
+    percentOrtho: 0.3,
+    phoneticWeights: {
+      eɪn: 2
+    }});
+
+  jsPsych.run([task])
+</script>
+
+</html>
