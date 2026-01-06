@@ -11,29 +11,9 @@ jobs:
     steps:
         - name: Checkout Repository
           uses: actions/checkout@v4
-        
-        - name: Set up Git
-          run: |
-            git config --global user.name "github-actions[bot]"
-            git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-        - name: Setup gh-pages branch with ref
-          run: |
-            git fetch origin +refs/heads/main:refs/remotes/origin/main
-            if git show-ref --verify --quiet refs/heads/gh-pages; then
-                git branch -f gh-pages origin/main
-            else
-                git checkout -b gh-pages origin/main
-            fi
-
-        - name: Switch to gh-pages branch
-          run: git checkout gh-pages
-
-        - name: Push gh-pages branch
-          uses: ad-m/github-push-action@master
           with:
-            github_token: ${{ secrets.GITHUB_TOKEN }}
-            branch: gh-pages
+            fetch-depth: 0  # Fetch all history for all branches and tags
+            persist-credentials: true
 
         - name: Install Node.js
           uses: actions/setup-node@v3
@@ -54,9 +34,21 @@ jobs:
             npm run build --prefix ./anendophasia-task-switching
             npm run build --prefix ./rhyme-judgments
         
+        - name: Prepare public directory
+          run: |
+            rm -rf public
+            mkdir -p public
+            cp anendophasia-full-battery/examples/index.html public/index.html
+            mkdir -p public/anendophasia-questionnaire/dist public/rhyme-judgments/dist public/anendophasia-task-switching/dist public/anendophasia-full-battery/dist
+            cp -a anendophasia-questionnaire/dist/. public/anendophasia-questionnaire/dist/ || true
+            cp -a rhyme-judgments/dist/. public/rhyme-judgments/dist/ || true
+            cp -a anendophasia-task-switching/dist/. public/anendophasia-task-switching/dist/ || true
+            cp -a anendophasia-full-battery/dist/. public/anendophasia-full-battery/dist/ || true
+            touch public/.nojekyll
+        
         - name: Deploy to gh-pages
           uses: peaceiris/actions-gh-pages@v3
           with:
-            publish_dir: ./anendophasia-full-battery/examples/index.html
+            publish_dir: ./public
             publish_branch: gh-pages
             github_token: ${{ secrets.GITHUB_TOKEN }}
