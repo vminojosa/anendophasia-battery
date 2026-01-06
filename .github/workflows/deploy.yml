@@ -53,3 +53,10 @@ jobs:
             npm run build --prefix ./anendophasia-questionnaire
             npm run build --prefix ./anendophasia-task-switching
             npm run build --prefix ./rhyme-judgments
+        
+        - name: Deploy to gh-pages
+          uses: peaceiris/actions-gh-pages@v3
+          with:
+            publish_dir: ./anendophasia-full-battery/examples/index.html
+            publish_branch: gh-pages
+            github_token: ${{ secrets.GITHUB_TOKEN }}
