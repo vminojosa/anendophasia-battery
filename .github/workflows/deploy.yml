@@ -22,14 +22,12 @@ jobs:
 
         - name: Install Dependencies
           run: |
-            npm ci --prefix ./anendophasia-full-battery
             npm ci --prefix ./anendophasia-questionnaire
             npm ci --prefix ./anendophasia-task-switching
             npm ci --prefix ./rhyme-judgments
 
         - name: Build Battery
           run: |
-            npm run build --prefix ./anendophasia-full-battery
             npm run build --prefix ./anendophasia-questionnaire
             npm run build --prefix ./anendophasia-task-switching
             npm run build --prefix ./rhyme-judgments
@@ -38,7 +36,7 @@ jobs:
           run: |
             rm -rf public
             mkdir -p public
-            cp anendophasia-full-battery/examples/index.html public/index.html
+            cp index.html public/index.html
             mkdir -p public/anendophasia-questionnaire/dist public/rhyme-judgments/dist public/anendophasia-task-switching/dist public/anendophasia-full-battery/dist
             cp -a anendophasia-questionnaire/dist/. public/anendophasia-questionnaire/dist/ || true
             cp -a rhyme-judgments/dist/. public/rhyme-judgments/dist/ || true
