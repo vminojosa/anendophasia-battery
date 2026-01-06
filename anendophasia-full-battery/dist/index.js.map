@@ -1,1 +1,0 @@
-{"version":3,"sources":["../src/index.ts"],"names":[],"mappings":";AAEO,SAAS,eAAe,SAAiB,CAAC,GAAE;AAEnD;AAEO,IAAM,gBAAgB,CAAC;AAEvB,IAAM,QAAQ,CAAC","sourcesContent":["import { JsPsych } from \"jspsych\"\n\nexport function createTimeline(jsPsych:JsPsych, {}){\n\n}\n\nexport const timelineUnits = {}\n\nexport const utils = {}"]}
