@@ -15,13 +15,7 @@
 <script>
   const jsPsych = initJsPsych();
 
-  const task = jsPsychTimelineRhymeJudgments.createTimeline(jsPsych, {
-    numTrials: 10,
-    percentPhonetic: 0.3,
-    percentOrtho: 0.3,
-    phoneticWeights: {
-      eɪn: 2
-    }});
+  const task = jsPsychTimelineRhymeJudgments.createTimeline(jsPsych, {});
 
   jsPsych.run([task])
 </script>

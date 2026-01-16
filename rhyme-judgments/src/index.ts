@@ -6,64 +6,10 @@ import JsPsychHTMLKeyboardResponse from "@jspsych/plugin-html-keyboard-response"
 
 var stimuli = require('../stimuli.json')
 
-// things that need to happen, by priority:
-// - develop duplicatesAllowed in buildTimelineVariables function
-// - integrate minNameAgreement parameter
-// - set up so I can test rhymeDistribution parameter
-
-// consider refactoring
-function buildPairingMap(){ 
-// argument is redundant; 
-// duplicate trials can be handled in buildTimelineVariables 
-// and don't need to be anywhere in the pairingMap
-    let pairingMap = [] // maybe this loop can be the start to determining if some endings have no rhymes
-    for (let i = 0; i < stimuli.length; i++) {
-        for (let j = 0; j < stimuli.length; j++) {
-            if (pairingMap.map(item => item.words).includes(`${stimuli[j].word}-${stimuli[i].word}`) || i === j) { 
-                continue
-            } else {
-                pairingMap.push(
-                    {
-                        words: `${stimuli[i].word}-${stimuli[j].word}`,
-                        pairing: [stimuli[i], stimuli[j]],
-                        phonetics: [stimuli[i].endingPhonetic, stimuli[j].endingPhonetic],
-                        orthographics: [stimuli[i].endingOrthographic, stimuli[j].endingOrthogaphic],
-                        html: `<div style='display:flex;align-items:center;justify-content:center;'> 
-                            <img src=${stimuli[i].img} style='width:50'></img>
-                            <p>+</p>
-                            <img src=${stimuli[j].img} style='width:50'></img>
-                        </div>`, // problem with the stimuli not appearing side-by-side
-                        // set this up so that stimuli are randomized left/right; this might end up refactoring the html in the grabStimuli function
-                        rhymePhonetic: (stimuli[i].endingPhonetic === stimuli[j].endingPhonetic) ? true : false,
-                        rhymeOrthographic: (stimuli[i].endingOrthographic === stimuli[j].endingOrthographic) ? true : false,
-                    }
-                )
-            }
-        }
-    }
-    console.log(pairingMap)
-    return pairingMap   
-} // test to see if duplicate combinations or same-word combinations exist in pairingMap
-
-function grabStimuli(pairingMap, phonetic, rhymePhonetic, rhymeOrthographic){
-    console.log(`Variables are ${phonetic}, ${rhymePhonetic}, ${rhymeOrthographic}`)
-    var pairings = pairingMap.filter((item) => item.phonetics.includes(phonetic)) // filter by phonetics first
-    console.log(pairings)
-    if (rhymePhonetic === true) {
-        pairings = pairings.filter((item) => item.rhymePhonetic === true)
-        if (rhymeOrthographic === true /* assume proportionOrtho is relative to proportionPhonetic */ ) {
-            pairings = pairings.filter((item) => item.rhymeOrthographic === true)
-        } else {
-            pairings = pairings.filter((item) => item.rhymeOrthographic === false)
-        }
-    } else {
-        pairings = pairings.filter((item) => item.rhymePhonetic === false)
-    }
-    console.log(pairings)
-    const trialStimulus = pairings[Math.floor(Math.random() * pairings.length)]
-    console.log(trialStimulus.words)
-    return trialStimulus.html
-} // test that it doesn't break if there are no rhymes
+// Global To-Do List:
+// - Develop duplicatesAllowed in buildTimelineVariables function
+// - Integrate minNameAgreement parameter
+// - Set up so I can test rhymeDistribution parameter
 
 function checkOptions(options, phoneticsRhyme, orthographicsRhyme){
     if (options.percentPhonetic + options.percentOrtho > 1) {
@@ -99,6 +45,40 @@ For now, we will make up the difference with duplicates.
         `)}
     return options
 }
+
+// consider refactoring
+function buildPairingMap(){ 
+// argument is redundant; 
+// duplicate trials can be handled in buildTimelineVariables 
+// and don't need to be anywhere in the pairingMap
+    let pairingMap = [] // maybe this loop can be the start to determining if some endings have no rhymes
+    for (let i = 0; i < stimuli.length; i++) {
+        for (let j = 0; j < stimuli.length; j++) {
+            if (pairingMap.map(item => item.words).includes(`${stimuli[j].word}-${stimuli[i].word}`) || i === j) { 
+                continue
+            } else {
+                pairingMap.push(
+                    {
+                        words: `${stimuli[i].word}-${stimuli[j].word}`,
+                        pairing: [stimuli[i], stimuli[j]],
+                        phonetics: [stimuli[i].endingPhonetic, stimuli[j].endingPhonetic],
+                        orthographics: [stimuli[i].endingOrthographic, stimuli[j].endingOrthogaphic],
+                        html: `<div style='display:flex;align-items:center;justify-content:center;'> 
+                            <img src=${stimuli[i].img} style='width:50'></img>
+                            <p>+</p>
+                            <img src=${stimuli[j].img} style='width:50'></img>
+                        </div>`, // problem with the stimuli not appearing side-by-side
+                        // set this up so that stimuli are randomized left/right; this might end up refactoring the html in the grabStimuli function
+                        rhymePhonetic: (stimuli[i].endingPhonetic === stimuli[j].endingPhonetic) ? true : false,
+                        rhymeOrthographic: (stimuli[i].endingOrthographic === stimuli[j].endingOrthographic) ? true : false,
+                    }
+                )
+            }
+        }
+    }
+    console.log(pairingMap)
+    return pairingMap   
+} // test to see if duplicate combinations or same-word combinations exist in pairingMap
 
 // for buildTimelineVariables:
 // - integrate duplicatesAllowed parameter (this may take longer than expected, or come at the end; no clear idea how to set up a duplicates parameter)
@@ -229,28 +209,24 @@ function buildTimelineVariables(pairingMap, options){
 // that the correct number of rhyming vs. non-rhyming items are selected everytime
 // that duplicates never appear when not allowed
 
-export function createTimeline(jsPsych:JsPsych, options: Partial<CreateTimelineOptions> = {}){
-    var main_timeline = []
-
-    const defaultOptions = {
-        numTrials: 10, // this parameter bugs when percentPhonetic or percentOrtho can't be met by available stimuli
-        duplicatesAllowed: false,
-        percentPhonetic: 0.5,
-        percentOrtho: 0.3,
+function buildIntro(jsPsych: JsPsych, options){
+    if (options.intro == true){
+        const intro = {
+            type: JsPsychHTMLKeyboardResponse,
+            stimulus: `<h2>Rhyme Judgment Task</h2>
+                    ${options.text}`,
+        }
+        return intro
+    } else {
+        return {}
     }
+}
 
-    options = {
-        ...defaultOptions,
-        ...options,
-    };
-
-    const pairingMap = buildPairingMap()
-    let variables = buildTimelineVariables(pairingMap, options)
-
+function buildTrials(jsPsych: JsPsych, pairingMap, variables){
     const trial = {
         type: JsPsychHTMLKeyboardResponse,
         stimulus: () => grabStimuli(
-            pairingMap,
+            pairingMap, // refactor this into yet another timeline variable? Of just the relevant pairings?
             jsPsych.evaluateTimelineVariable('endingPhonetic'), 
             jsPsych.evaluateTimelineVariable('rhymePhonetic'),
             jsPsych.evaluateTimelineVariable('rhymeOrthographic')
@@ -266,12 +242,67 @@ export function createTimeline(jsPsych:JsPsych, options: Partial<CreateTimelineO
         randomize_order: false,
     }
 
-    main_timeline.push(trial_timeline)
+    return trial_timeline
+}
+
+function grabStimuli(pairingMap, phonetic, rhymePhonetic, rhymeOrthographic){
+    console.log(`Variables are ${phonetic}, ${rhymePhonetic}, ${rhymeOrthographic}`)
+    var pairings = pairingMap.filter((item) => item.phonetics.includes(phonetic)) // filter by phonetics first
+    console.log(pairings)
+    if (rhymePhonetic === true) {
+        pairings = pairings.filter((item) => item.rhymePhonetic === true)
+        if (rhymeOrthographic === true /* assume proportionOrtho is relative to proportionPhonetic */ ) {
+            pairings = pairings.filter((item) => item.rhymeOrthographic === true)
+        } else {
+            pairings = pairings.filter((item) => item.rhymeOrthographic === false)
+        }
+    } else {
+        pairings = pairings.filter((item) => item.rhymePhonetic === false)
+    }
+    console.log(pairings)
+    const trialStimulus = pairings[Math.floor(Math.random() * pairings.length)]
+    console.log(trialStimulus.words)
+    return trialStimulus.html
+} // test that it doesn't break if there are no rhymes
+
+export function createTimeline(jsPsych:JsPsych, options: Partial<CreateTimelineOptions> = {}){
+    var main_timeline = []
+
+    const defaultOptions = {
+        introOptions: {
+            intro: true,
+            text: 'This is an experiment investigating rhyme judgments. ' +
+                '<p>You will see two images at a time and have to judge whether the names of the items rhyme or not. </p>' +
+                '<p>For example, if you see a picture of a LAMP and a picture of a CAMP, you should respond that they rhyme (press UP arrow). If you see a picture of a BEAR and a picture of a CUP, you should respond that they <b>do not</b> rhyme (press DOWN arrow).</p>' +
+                '<p>All the words are short (one syllable). Please make the judgments as quickly and accurately as possible.'+
+                '<p>Press UP arrow key if you think they rhyme, press DOWN arrow key if you think they do not rhyme.'+
+                '<p>Click the button below to begin.</p>',
+        },
+        numTrials: 10, // this parameter bugs when percentPhonetic or percentOrtho can't be met by available stimuli
+        duplicatesAllowed: false,
+        percentPhonetic: 0.5,
+        percentOrtho: 0.3,
+    }
+
+    options = {
+        ...defaultOptions,
+        ...options,
+    };
+
+    const pairingMap = buildPairingMap()
+    let variables = buildTimelineVariables(pairingMap, options)
+
+    main_timeline.push(buildIntro(jsPsych, options.introOptions))
+    main_timeline.push(buildTrials(jsPsych, pairingMap, variables))
 
     return main_timeline
 }
 
 export interface CreateTimelineOptions {
+    introOptions: {
+        intro: boolean,
+        text: string,
+    },
     numTrials: number,
     duplicatesAllowed: boolean,
     percentPhonetic: number,
