@@ -41,7 +41,6 @@ jobs:
             cp -a anendophasia-questionnaire/dist/. public/anendophasia-questionnaire/dist/ || true
             cp -a rhyme-judgments/dist/. public/rhyme-judgments/dist/ || true
             cp -a anendophasia-task-switching/dist/. public/anendophasia-task-switching/dist/ || true
-            cp -a anendophasia-full-battery/dist/. public/anendophasia-full-battery/dist/ || true
             touch public/.nojekyll
         
         - name: Deploy to gh-pages
