@@ -3,8 +3,11 @@ import JsPsychSurveyText from "@jspsych/plugin-survey-text"
 import JsPsychInstructions from "@jspsych/plugin-instructions"
 import jsPsychHTMLKeyboardResponse from "@jspsych/plugin-html-keyboard-response"
 
-function buildBlockVariables(n_trials, startWith, feedback, switching){
+function buildSetVariables(startWith, feedback, n_trials, switching){
     var variables = []
+
+    console.log('beginning of buildSetVariables logs')
+    console.log(`args are:\nn_trials is ${n_trials},\nstartWith is ${startWith},\nfeedback is ${feedback},\nswitching is ${switching}`)
 
     var practice = Array(feedback).fill(null).map(() => {
         return {
@@ -36,7 +39,7 @@ function buildBlockVariables(n_trials, startWith, feedback, switching){
     return variables
 }
 
-function buildTest(jsPsych, block, cue, instructOptions){
+function buildSet(jsPsych, setOptions, cue, starting_operation, cueInfo, instructOptions){ // add argument for a demo section?
 
     const trial = {
         type: JsPsychSurveyText,
@@ -45,89 +48,91 @@ function buildTest(jsPsych, block, cue, instructOptions){
             <div style="font-size:60px; padding:50px; ${
                 jsPsych.evaluateTimelineVariable('cue') === 'color' ? 
                 jsPsych.evaluateTimelineVariable('operation') == 'addition' ? 
-                `color:${cue.cueColors['add']}` : `color:${cue.cueColors['sub']}` : '' }">
+                `color:${cueInfo.cueColors['add']}` : `color:${cueInfo.cueColors['sub']}` : '' }">
                 ${jsPsych.evaluateTimelineVariable('number')}
                 ${jsPsych.evaluateTimelineVariable('cue') === 'sign' ? 
                     jsPsych.evaluateTimelineVariable('operation') == 'addition' ? 
-                    cue.cueSigns['add'] : cue.cueSigns['sub'] : ''}
+                    cueInfo.cueSigns['add'] : cueInfo.cueSigns['sub'] : ''}
             </div>`,
             columns: 2, 
             required: true, 
             name:'question',
         }],
-        button_label: "Enter"
+        button_label: "Enter",
+        data: {
+            correct_response: function(){
+                console.log('operation for this trial is ' + jsPsych.evaluateTimelineVariable('operation'))
+                const correctResponse = jsPsych.evaluateTimelineVariable('operation') === 'addition' ? 
+                    jsPsych.evaluateTimelineVariable('number') + 3 : 
+                    jsPsych.evaluateTimelineVariable('number') - 3;
+                return correctResponse
+            },
+        },
+        on_finish: function(data) {
+            data.correct = data.response.question === data.correct_response;
+        }
     }
 
     const feedback = {
-        type: jsPsychHTMLKeyboardResponse,
-        stimulus: function(){
-            const lastTrialData = jsPsych.data.get().last(1).values()[0];
-            const correctAnswer = jsPsych.evaluateTimelineVariable('operation') === 'addition' ? 
-                jsPsych.evaluateTimelineVariable('number') + 3 : 
-                jsPsych.evaluateTimelineVariable('number') - 3;
-            const participantAnswer = parseInt(lastTrialData.response.question);
-            if (participantAnswer === correctAnswer){
-                return '<div style="font-size:40px; color:green; padding:50px;">Correct!</div>';
-            } else {
-                return `<div style="font-size:40px; color:red; padding:50px;">Incorrect. The correct answer was ${correctAnswer}.</div>`;
-            }
-        },
-        choices: "NO_KEYS",
-        trial_duration: 1000,
-    }
-
-    const instructions = {
-            type: JsPsychInstructions,
-            pages: jsPsych.timelineVariable('text'),
-            allow_keys: false,
-            data: {experiment:'task_switching'},
-            show_clickable_nav: true
-        }
-
-    var if_feedback = {
-        timeline: [feedback],
+        timeline: [{
+            type: jsPsychHTMLKeyboardResponse,
+            stimulus: function(){
+                const lastTrialData = jsPsych.data.get().last(1).values()[0];
+                if (lastTrialData.correct){
+                    return '<div style="font-size:40px; color:green; padding:50px;">Correct!</div>';
+                } else {
+                    return `<div style="font-size:40px; color:red; padding:50px;">Incorrect. The correct answer was ${lastTrialData.correct_response}.</div>`;
+                }
+            },
+            choices: "NO_KEYS",
+            trial_duration: 1000,
+        }],
         conditional_function: function(){
             return jsPsych.evaluateTimelineVariable('feedback');
         }
     }
 
-    var if_instructions = {
-        timeline: [instructions],
+    const instructions = {
+        timeline: [{
+            type: JsPsychInstructions,
+            pages: jsPsych.timelineVariable('text'),
+            allow_keys: false,
+            data: {experiment:'task_switching'},
+            show_clickable_nav: true
+        }],
         conditional_function: function(){
             return jsPsych.evaluateTimelineVariable('include') == true;
         }
     }
     
     var trialTimeline = {
-        timeline: [trial, if_feedback]
+        timeline: [trial, feedback]
     }
 
-    instructOptions.map(vars => {
-        vars.cue = block.cues[instructOptions.indexOf(vars)]
-        vars.startWith = block.startWith[instructOptions.indexOf(vars)]
-        return vars
-    })
+    var setVars = buildSetVariables(
+        starting_operation, 
+        setOptions.feedback, 
+        setOptions.nTrials, 
+        setOptions.switch).map(trial => ({cue: cue, ...trial}))
 
-    var task = {
+    console.log('variables for block are ' + JSON.stringify(setVars))
+
+    var setTrials = {
         timeline: [trialTimeline],
-        timeline_variables: buildBlockVariables(
-            block.nTrials, 
-            jsPsych.timelineVariable('startWith'),  
-            block.feedback,
-            block.switch)
-        }
+        timeline_variables: setVars,
+    }
 
-    var test = {
-        timeline: [if_instructions, task],
+    var set = {
+        timeline: [instructions, setTrials],
         timeline_variables: instructOptions,
     }
 
-    return test
+    return set
 }
 
 function fetchInstructions(taskOptions, instructOptions){
     if (taskOptions.switch == false){
-        return taskOptions.startWith.map(startWith => instructOptions.tasks[startWith])
+        return taskOptions.starting_operation.map(starting_operation => instructOptions.tasks[starting_operation])
     } else {
         return taskOptions.cues.map(cue => instructOptions.tasks['switch_' + cue])
     }
@@ -196,19 +201,19 @@ export function createTimeline(jsPsych:JsPsych,  options: Partial<CreateTimeline
         },
         control: {
             switch: false,
-            startWith: ['addition', 'subtraction'],
+            starting_operation: ['addition', 'subtraction'],
             feedback: 5,
             nTrials: 10,
             cues: ['none', 'none'],
         },
         test: {
             switch: true,
-            startWith: ['addition', 'addition', 'addition'],
+            starting_operation: ['addition', 'addition', 'addition'],
             feedback: 5,
             nTrials: 10,
             cues: ['sign', 'color', 'none'],
         },
-        cue: {
+        cueInfo: {
             cueColors: {add: 'green', sub: 'red'},
             cueSigns: {add: '+', sub: '-'}
         }
@@ -219,11 +224,27 @@ export function createTimeline(jsPsych:JsPsych,  options: Partial<CreateTimeline
         ...options,
     };
 
+    main_timeline.push(buildInstructions(options.instructions.intro.include, options.instructions.intro.text))
 
-
-    main_timeline.push(buildInstructions(options.instructions.intro.include, options.instructions.intro.text)) // reformat feedback as just separate demo timeline
-    main_timeline.push(buildTest(jsPsych, options.control, options.cue, fetchInstructions(options.control, options.instructions)))
-    main_timeline.push(buildTest(jsPsych, options.test, options.cue, fetchInstructions(options.test, options.instructions)))
+    // still a bug with the way operations are read, based on indexOf cues
+    for (const cue of options.control.cues){
+        main_timeline.push(buildSet(
+            jsPsych, 
+            options.control, 
+            cue, 
+            options.control.starting_operation[options.control.cues.indexOf(cue)], 
+            options.cueInfo, 
+            fetchInstructions(options.control, options.instructions)))
+    }
+    for (const cue of options.test.cues){
+        main_timeline.push(buildSet(
+            jsPsych, 
+            options.test, 
+            cue, 
+            options.test.starting_operation[options.test.cues.indexOf(cue)], 
+            options.cueInfo, 
+            fetchInstructions(options.test, options.instructions)))
+    }
 
     return main_timeline
 }
@@ -259,19 +280,19 @@ export interface CreateTimelineOptions {
     },
     control: {
         switch: boolean,
-        startWith: string[],
+        starting_operation: string[],
         feedback: number,
         nTrials: number,
         cues: string[],
     },
     test: {
-        switch: boolean,
-        startWith: string[],
+        switch: boolean, // consider getting rid of switch parameters to keep it clear to the user that control is for not switching
+        starting_operation: string[],
         feedback: number,
         nTrials: number,
         cues: string[],
     },
-    cue: {
+    cueInfo: {
         cueColors: object,
         cueSigns: object
     }
