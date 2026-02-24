@@ -102,7 +102,7 @@ function buildSetVariables(startWith, n_trials, switching){
     return variables
 }
 
-function buildSet(jsPsych, nTrials, cue, starting_operation, switching, cueInfo, instructOptions){ // add argument for a demo section?
+function buildTestSubtimeline(jsPsych, nTrials, cue, starting_operation, switching, cueInfo, instructOptions){
 
     console.log('beginning of buildSet logs')
     console.log(`args are:
@@ -110,18 +110,50 @@ function buildSet(jsPsych, nTrials, cue, starting_operation, switching, cueInfo,
         \ncue is ${cue},
         \nstarting_operation is ${starting_operation},
         \nswitch is ${switching},
-        \ncueInfo is ${JSON.stringify(cueInfo)},
-        \ninstructOptions is ${JSON.stringify(instructOptions)}`)
-
+        \ncueInfo is ${JSON.stringify(cueInfo)}`)
 
     const trialTemplates = new TrialTemplates(jsPsych);
+
+    const instructVars = [instructOptions.end_feedback]
+    console.log('instruct vars are ' + JSON.stringify(instructVars))
     
     var variables = buildSetVariables(
         starting_operation,
-        5, // replace this with an actual variable later 
+        nTrials,
         switching).map(trial => ({cue: cue, ...trial}))
 
     console.log('variables for block are ' + JSON.stringify(variables))
+
+    const setTrials = {
+        timeline: [trialTemplates.Test(cueInfo)],
+        timeline_variables: variables,
+    }
+
+    var setSubtimeline = {
+        timeline: [trialTemplates.Instructions(), setTrials],
+        timeline_variables: instructVars,
+    }
+
+    console.log('end of buildSet logs')
+    return setSubtimeline
+}
+
+function buildDemoSubtimeline(jsPsych, nTrials, cue, starting_operation, switching, cueInfo, instructOptions){
+
+    const trialTemplates = new TrialTemplates(jsPsych);
+
+    var instructVars = []
+
+    if (switching == false){
+        instructVars = [instructOptions.tasks[starting_operation]]
+    } else {
+        instructVars = [instructOptions.tasks['switch_' + cue]]
+    }
+    
+    var variables = buildSetVariables(
+        starting_operation,
+        nTrials,
+        switching).map(trial => ({cue: cue, ...trial}))
 
     const setTrials = {
         timeline: [trialTemplates.Test(cueInfo), trialTemplates.Feedback()],
@@ -130,33 +162,11 @@ function buildSet(jsPsych, nTrials, cue, starting_operation, switching, cueInfo,
 
     var setSubtimeline = {
         timeline: [trialTemplates.Instructions(), setTrials],
-        timeline_variables: instructOptions,
+        timeline_variables: instructVars,
     }
 
     console.log('end of buildSet logs')
     return setSubtimeline
-}
-
-function fetchInstructions(switching, cue, starting_operation, instructOptions){
-    if (switching == false){
-        return [instructOptions.tasks[starting_operation]] // fix this later
-    } else {
-        return [instructOptions.tasks['switch_' + cue]] // fix this later
-    }
-}
-
-function buildInstructions(include, text){
-    if (include == true){
-        return {
-            type: JsPsychInstructions,
-            pages: text,
-            allow_keys: false,
-            data: {experiment:'task_switching'},
-            show_clickable_nav: true
-        }
-    } else {
-        return {}
-    }
 }
 
 // Things to add:
@@ -165,6 +175,8 @@ function buildInstructions(include, text){
 // input evaluation for data object
 export function createTimeline(jsPsych:JsPsych,  options: Partial<CreateTimelineOptions> = {}){
     var main_timeline = []
+
+    const trialTemplates = new TrialTemplates(jsPsych);
 
     const defaultOptions = {
         instructions: {
@@ -235,53 +247,46 @@ export function createTimeline(jsPsych:JsPsych,  options: Partial<CreateTimeline
         ...options,
     };
 
-    main_timeline.push(buildInstructions(options.instructions.intro.include, options.instructions.intro.text))
+    main_timeline.push({
+        timeline: [trialTemplates.Instructions()],
+        timeline_variables: [options.instructions.intro]
+    })
 
     for (var cueIndex = 0; cueIndex < options.control.cues.length; cueIndex++){
-        const instructOptions = fetchInstructions(
-            options.control.switch, 
-            options.control.cues[cueIndex], 
-            options.control.starting_operation[cueIndex], 
-            options.instructions)
-        main_timeline.push(buildSet(
+        main_timeline.push(buildDemoSubtimeline(
             jsPsych, 
             options.control.feedback, 
             options.control.cues[cueIndex], 
             options.control.starting_operation[cueIndex], 
             options.control.switch,
             options.cueInfo,
-            instructOptions))
-        main_timeline.push(buildSet(
+            options.instructions))
+        main_timeline.push(buildTestSubtimeline(
             jsPsych, 
             options.control.nTrials, 
             options.control.cues[cueIndex], 
             options.control.starting_operation[cueIndex], 
             options.control.switch,
             options.cueInfo,
-            instructOptions))
+            options.instructions))
     }
     for (var cueIndex = 0; cueIndex < options.test.cues.length; cueIndex++){
-        const instructOptions = fetchInstructions(
-            options.control.switch, 
-            options.control.cues[cueIndex], 
-            options.control.starting_operation[cueIndex], 
-            options.instructions)
-        main_timeline.push(buildSet(
+        main_timeline.push(buildDemoSubtimeline(
             jsPsych, 
             options.test.feedback, 
             options.test.cues[cueIndex], 
             options.test.starting_operation[cueIndex], 
             options.test.switch,
             options.cueInfo, 
-            instructOptions))
-        main_timeline.push(buildSet(
+            options.instructions))
+        main_timeline.push(buildTestSubtimeline(
             jsPsych, 
             options.test.nTrials, 
             options.test.cues[cueIndex], 
             options.test.starting_operation[cueIndex], 
             options.test.switch,
-            options.cueInfo, 
-            instructOptions))
+            options.cueInfo,
+            options.instructions))
     }
 
     return main_timeline
