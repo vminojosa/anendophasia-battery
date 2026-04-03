@@ -1,4 +1,5 @@
 import { JsPsych } from "jspsych"
+import jsPsychInstructions from "@jspsych/plugin-instructions"
 import JsPsychHTMLKeyboardResponse from "@jspsych/plugin-html-keyboard-response"
 
 // General Notes on Development:
@@ -212,9 +213,12 @@ function buildTimelineVariables(pairingMap, options){
 function buildIntro(jsPsych: JsPsych, options){
     if (options.intro == true){
         const intro = {
-            type: JsPsychHTMLKeyboardResponse,
-            stimulus: `<h2>Rhyme Judgment Task</h2>
-                    ${options.text}`,
+            type: jsPsychInstructions,
+            pages: [`<h2>Rhyme Judgment Task</h2>
+                    ${options.text}`],
+            allow_keys: false,
+            data: {experiment:'task_switching'},
+            show_clickable_nav: true
         }
         return intro
     } else {

@@ -169,16 +169,12 @@ function buildDemoSubtimeline(jsPsych, nTrials, cue, starting_operation, switchi
     return setSubtimeline
 }
 
-// Things to add:
-// intro trials for each task
-// intro trial for whole timeline
-// input evaluation for data object
 export function createTimeline(jsPsych:JsPsych,  options: Partial<CreateTimelineOptions> = {}){
     var main_timeline = []
 
     const trialTemplates = new TrialTemplates(jsPsych);
 
-    const defaultOptions = {
+    const defaultOptions = { // see if this can be factored out of the creatTimeline function and moved elsewhere / incrementalized
         instructions: {
             intro: {
                 include: true,
@@ -236,7 +232,7 @@ export function createTimeline(jsPsych:JsPsych,  options: Partial<CreateTimeline
             nTrials: 10,
             cues: ['sign', 'color', 'none'],
         },
-        cueInfo: {
+        cueInfo: { // copy the way Cherrie set out a separate StimulusInfo Object for hearts-and-flowers
             cueColors: {add: 'green', sub: 'red'},
             cueSigns: {add: '+', sub: '-'}
         }
