@@ -84,7 +84,7 @@ function buildPairingMap(){
 // for buildTimelineVariables:
 // - integrate duplicatesAllowed parameter (this may take longer than expected, or come at the end; no clear idea how to set up a duplicates parameter)
 // Notes on duplicatesAllowed parameter:
-// - it could effect if duplicate phonetic endings are selected
+// - it could effect if duplicate phonetic endings are selected:
 // -- between rhyme classes of end-pairings (i.e., phonetic, orthographic, control)
 // -- within a single rhyme class of end-pairings
 // -- among versions of a single end-pairing (e.g. "cat-hat" appearing twice)
