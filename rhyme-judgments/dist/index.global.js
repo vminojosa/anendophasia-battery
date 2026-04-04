@@ -2825,7 +2825,7 @@ var jsPsychTimelineRhymeJudgments = (function (exports) {
     "stimuli.json"(exports, module) {
       module.exports = [
         {
-          img: "/anendophasia-battery/rhyme-judgments/img/img/pope.png",
+          img: "/anendophasia-battery/rhyme-judgments/img/pope.png",
           word: "pope",
           endingPhonetic: "o\u028Ap",
           endingOrthographic: "ope",
@@ -2833,7 +2833,7 @@ var jsPsychTimelineRhymeJudgments = (function (exports) {
           target_frequency: 3.681
         },
         {
-          img: "/anendophasia-battery/rhyme-judgments/img/img/rope.png",
+          img: "/anendophasia-battery/rhyme-judgments/img/rope.png",
           word: "rope",
           endingPhonetic: "o\u028Ap",
           endingOrthographic: "ope",
@@ -2841,7 +2841,7 @@ var jsPsychTimelineRhymeJudgments = (function (exports) {
           target_frequency: 3.681
         },
         {
-          img: "/anendophasia-battery/rhyme-judgments/img/img/soap.png",
+          img: "/anendophasia-battery/rhyme-judgments/img/soap.png",
           word: "soap",
           endingPhonetic: "o\u028Ap",
           endingOrthographic: "oap",
@@ -2849,7 +2849,7 @@ var jsPsychTimelineRhymeJudgments = (function (exports) {
           target_frequency: 3.681
         },
         {
-          img: "/anendophasia-battery/rhyme-judgments/img/img/bell.png",
+          img: "/anendophasia-battery/rhyme-judgments/img/bell.png",
           word: "bell",
           endingPhonetic: "\u025B\u026B",
           endingOrthographic: "ell",
@@ -2857,7 +2857,7 @@ var jsPsychTimelineRhymeJudgments = (function (exports) {
           target_frequency: 3.681
         },
         {
-          img: "/anendophasia-battery/rhyme-judgments/img/img/bag.png",
+          img: "/anendophasia-battery/rhyme-judgments/img/bag.png",
           word: "bag",
           endingPhonetic: "\xE6\u0261",
           endingOrthographic: "ag",
@@ -2865,7 +2865,7 @@ var jsPsychTimelineRhymeJudgments = (function (exports) {
           target_frequency: 3.681
         },
         {
-          img: "/anendophasia-battery/rhyme-judgments/img/img/bear.png",
+          img: "/anendophasia-battery/rhyme-judgments/img/bear.png",
           word: "bear",
           endingPhonetic: "\u025B\u0279",
           endingOrthographic: "ear",
@@ -2873,7 +2873,7 @@ var jsPsychTimelineRhymeJudgments = (function (exports) {
           target_frequency: 3.681
         },
         {
-          img: "/anendophasia-battery/rhyme-judgments/img/img/bed.png",
+          img: "/anendophasia-battery/rhyme-judgments/img/bed.png",
           word: "bed",
           endingPhonetic: "\u025Bd",
           endingOrthographic: "ed",
@@ -2881,7 +2881,7 @@ var jsPsychTimelineRhymeJudgments = (function (exports) {
           target_frequency: 3.681
         },
         {
-          img: "/anendophasia-battery/rhyme-judgments/img/img/beer.png",
+          img: "/anendophasia-battery/rhyme-judgments/img/beer.png",
           word: "beer",
           endingPhonetic: "\u026A\u0279",
           endingOrthographic: "eer",
@@ -2889,7 +2889,7 @@ var jsPsychTimelineRhymeJudgments = (function (exports) {
           target_frequency: 3.681
         },
         {
-          img: "/anendophasia-battery/rhyme-judgments/img/img/bone.png",
+          img: "/anendophasia-battery/rhyme-judgments/img/bone.png",
           word: "bone",
           endingPhonetic: "o\u028An",
           endingOrthographic: "one",
@@ -2897,7 +2897,7 @@ var jsPsychTimelineRhymeJudgments = (function (exports) {
           target_frequency: 3.681
         },
         {
-          img: "/anendophasia-battery/rhyme-judgments/img/img/box.png",
+          img: "/anendophasia-battery/rhyme-judgments/img/box.png",
           word: "box",
           endingPhonetic: "\u0251ks",
           endingOrthographic: "ox",
@@ -2905,7 +2905,7 @@ var jsPsychTimelineRhymeJudgments = (function (exports) {
           target_frequency: 3.681
         },
         {
-          img: "/anendophasia-battery/rhyme-judgments/img/img/brain.png",
+          img: "/anendophasia-battery/rhyme-judgments/img/brain.png",
           word: "brain",
           endingPhonetic: "e\u026An",
           endingOrthographic: "ain",
@@ -2913,7 +2913,7 @@ var jsPsychTimelineRhymeJudgments = (function (exports) {
           target_frequency: 3.681
         },
         {
-          img: "/anendophasia-battery/rhyme-judgments/img/img/bread.png",
+          img: "/anendophasia-battery/rhyme-judgments/img/bread.png",
           word: "bread",
           endingPhonetic: "\u025Bd",
           endingOrthographic: "ead",
@@ -2921,7 +2921,7 @@ var jsPsychTimelineRhymeJudgments = (function (exports) {
           target_frequency: 3.681
         },
         {
-          img: "/anendophasia-battery/rhyme-judgments/img/img/cab.png",
+          img: "/anendophasia-battery/rhyme-judgments/img/cab.png",
           word: "cab",
           endingPhonetic: "\xE6b",
           endingOrthographic: "ab",
@@ -2929,7 +2929,7 @@ var jsPsychTimelineRhymeJudgments = (function (exports) {
           target_frequency: 3.681
         },
         {
-          img: "/anendophasia-battery/rhyme-judgments/img/img/cat.png",
+          img: "/anendophasia-battery/rhyme-judgments/img/cat.png",
           word: "cat",
           endingPhonetic: "\xE6t",
           endingOrthographic: "at",
@@ -2937,7 +2937,7 @@ var jsPsychTimelineRhymeJudgments = (function (exports) {
           target_frequency: 3.681
         },
         {
-          img: "/anendophasia-battery/rhyme-judgments/img/img/chain.png",
+          img: "/anendophasia-battery/rhyme-judgments/img/chain.png",
           word: "chain",
           endingPhonetic: "e\u026An",
           endingOrthographic: "ain",
@@ -2945,7 +2945,7 @@ var jsPsychTimelineRhymeJudgments = (function (exports) {
           target_frequency: 3.681
         },
         {
-          img: "/anendophasia-battery/rhyme-judgments/img/img/chair.png",
+          img: "/anendophasia-battery/rhyme-judgments/img/chair.png",
           word: "chair",
           endingPhonetic: "\u025B\u0279",
           endingOrthographic: "air",
@@ -2953,7 +2953,7 @@ var jsPsychTimelineRhymeJudgments = (function (exports) {
           target_frequency: 3.681
         },
         {
-          img: "/anendophasia-battery/rhyme-judgments/img/img/claw.png",
+          img: "/anendophasia-battery/rhyme-judgments/img/claw.png",
           word: "claw",
           endingPhonetic: "\u0254",
           endingOrthographic: "aw",
@@ -2961,7 +2961,7 @@ var jsPsychTimelineRhymeJudgments = (function (exports) {
           target_frequency: 3.681
         },
         {
-          img: "/anendophasia-battery/rhyme-judgments/img/img/clock.png",
+          img: "/anendophasia-battery/rhyme-judgments/img/clock.png",
           word: "clock",
           endingPhonetic: "\u0251k",
           endingOrthographic: "ock",
@@ -2969,7 +2969,7 @@ var jsPsychTimelineRhymeJudgments = (function (exports) {
           target_frequency: 3.681
         },
         {
-          img: "/anendophasia-battery/rhyme-judgments/img/img/cone.png",
+          img: "/anendophasia-battery/rhyme-judgments/img/cone.png",
           word: "cone",
           endingPhonetic: "o\u028An",
           endingOrthographic: "one",
@@ -2977,7 +2977,7 @@ var jsPsychTimelineRhymeJudgments = (function (exports) {
           target_frequency: 3.681
         },
         {
-          img: "/anendophasia-battery/rhyme-judgments/img/img/crab.png",
+          img: "/anendophasia-battery/rhyme-judgments/img/crab.png",
           word: "crab",
           endingPhonetic: "\xE6b",
           endingOrthographic: "ab",
@@ -2985,7 +2985,7 @@ var jsPsychTimelineRhymeJudgments = (function (exports) {
           target_frequency: 3.681
         },
         {
-          img: "/anendophasia-battery/rhyme-judgments/img/img/crane.png",
+          img: "/anendophasia-battery/rhyme-judgments/img/crane.png",
           word: "crane",
           endingPhonetic: "e\u026An",
           endingOrthographic: "ane",
@@ -2993,7 +2993,7 @@ var jsPsychTimelineRhymeJudgments = (function (exports) {
           target_frequency: 3.681
         },
         {
-          img: "/anendophasia-battery/rhyme-judgments/img/img/dart.png",
+          img: "/anendophasia-battery/rhyme-judgments/img/dart.png",
           word: "dart",
           endingPhonetic: "\u0251\u0279t",
           endingOrthographic: "art",
@@ -3001,7 +3001,7 @@ var jsPsychTimelineRhymeJudgments = (function (exports) {
           target_frequency: 3.681
         },
         {
-          img: "/anendophasia-battery/rhyme-judgments/img/img/deer.png",
+          img: "/anendophasia-battery/rhyme-judgments/img/deer.png",
           word: "deer",
           endingPhonetic: "\u026A\u0279",
           endingOrthographic: "eer",
@@ -3009,7 +3009,7 @@ var jsPsychTimelineRhymeJudgments = (function (exports) {
           target_frequency: 3.681
         },
         {
-          img: "/anendophasia-battery/rhyme-judgments/img/img/door.png",
+          img: "/anendophasia-battery/rhyme-judgments/img/door.png",
           word: "door",
           endingPhonetic: "\u0254\u0279",
           endingOrthographic: "oor",
