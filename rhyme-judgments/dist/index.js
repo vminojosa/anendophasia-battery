@@ -1,3 +1,4 @@
+import jsPsychInstructions from '@jspsych/plugin-instructions';
 import JsPsychHTMLKeyboardResponse from '@jspsych/plugin-html-keyboard-response';
 
 var __defProp = Object.defineProperty;
@@ -26,7 +27,7 @@ var require_stimuli = __commonJS({
   "stimuli.json"(exports, module) {
     module.exports = [
       {
-        img: "../img/blue.png",
+        img: "../img/pope.png",
         word: "pope",
         endingPhonetic: "o\u028Ap",
         endingOrthographic: "ope",
@@ -34,7 +35,7 @@ var require_stimuli = __commonJS({
         target_frequency: 3.681
       },
       {
-        img: "../img/blue.png",
+        img: "../img/rope.png",
         word: "rope",
         endingPhonetic: "o\u028Ap",
         endingOrthographic: "ope",
@@ -42,7 +43,7 @@ var require_stimuli = __commonJS({
         target_frequency: 3.681
       },
       {
-        img: "../img/blue.png",
+        img: "../img/soap.png",
         word: "soap",
         endingPhonetic: "o\u028Ap",
         endingOrthographic: "oap",
@@ -50,7 +51,7 @@ var require_stimuli = __commonJS({
         target_frequency: 3.681
       },
       {
-        img: "../img/blue.png",
+        img: "../img/bell.png",
         word: "bell",
         endingPhonetic: "\u025B\u026B",
         endingOrthographic: "ell",
@@ -58,7 +59,7 @@ var require_stimuli = __commonJS({
         target_frequency: 3.681
       },
       {
-        img: "../img/blue.png",
+        img: "../img/bag.png",
         word: "bag",
         endingPhonetic: "\xE6\u0261",
         endingOrthographic: "ag",
@@ -66,7 +67,7 @@ var require_stimuli = __commonJS({
         target_frequency: 3.681
       },
       {
-        img: "../img/blue.png",
+        img: "../img/bear.png",
         word: "bear",
         endingPhonetic: "\u025B\u0279",
         endingOrthographic: "ear",
@@ -74,7 +75,7 @@ var require_stimuli = __commonJS({
         target_frequency: 3.681
       },
       {
-        img: "../img/blue.png",
+        img: "../img/bed.png",
         word: "bed",
         endingPhonetic: "\u025Bd",
         endingOrthographic: "ed",
@@ -82,7 +83,7 @@ var require_stimuli = __commonJS({
         target_frequency: 3.681
       },
       {
-        img: "../img/blue.png",
+        img: "../img/beer.png",
         word: "beer",
         endingPhonetic: "\u026A\u0279",
         endingOrthographic: "eer",
@@ -90,7 +91,7 @@ var require_stimuli = __commonJS({
         target_frequency: 3.681
       },
       {
-        img: "../img/blue.png",
+        img: "../img/bone.png",
         word: "bone",
         endingPhonetic: "o\u028An",
         endingOrthographic: "one",
@@ -98,7 +99,7 @@ var require_stimuli = __commonJS({
         target_frequency: 3.681
       },
       {
-        img: "../img/blue.png",
+        img: "../img/box.png",
         word: "box",
         endingPhonetic: "\u0251ks",
         endingOrthographic: "ox",
@@ -106,7 +107,7 @@ var require_stimuli = __commonJS({
         target_frequency: 3.681
       },
       {
-        img: "../img/blue.png",
+        img: "../img/brain.png",
         word: "brain",
         endingPhonetic: "e\u026An",
         endingOrthographic: "ain",
@@ -114,7 +115,7 @@ var require_stimuli = __commonJS({
         target_frequency: 3.681
       },
       {
-        img: "../img/blue.png",
+        img: "../img/bread.png",
         word: "bread",
         endingPhonetic: "\u025Bd",
         endingOrthographic: "ead",
@@ -122,7 +123,7 @@ var require_stimuli = __commonJS({
         target_frequency: 3.681
       },
       {
-        img: "../img/blue.png",
+        img: "../img/cab.png",
         word: "cab",
         endingPhonetic: "\xE6b",
         endingOrthographic: "ab",
@@ -130,7 +131,7 @@ var require_stimuli = __commonJS({
         target_frequency: 3.681
       },
       {
-        img: "../img/blue.png",
+        img: "../img/cat.png",
         word: "cat",
         endingPhonetic: "\xE6t",
         endingOrthographic: "at",
@@ -138,7 +139,7 @@ var require_stimuli = __commonJS({
         target_frequency: 3.681
       },
       {
-        img: "../img/blue.png",
+        img: "../img/chain.png",
         word: "chain",
         endingPhonetic: "e\u026An",
         endingOrthographic: "ain",
@@ -146,7 +147,7 @@ var require_stimuli = __commonJS({
         target_frequency: 3.681
       },
       {
-        img: "../img/blue.png",
+        img: "../img/chair.png",
         word: "chair",
         endingPhonetic: "\u025B\u0279",
         endingOrthographic: "air",
@@ -154,7 +155,7 @@ var require_stimuli = __commonJS({
         target_frequency: 3.681
       },
       {
-        img: "../img/blue.png",
+        img: "../img/claw.png",
         word: "claw",
         endingPhonetic: "\u0254",
         endingOrthographic: "aw",
@@ -162,7 +163,7 @@ var require_stimuli = __commonJS({
         target_frequency: 3.681
       },
       {
-        img: "../img/blue.png",
+        img: "../img/clock.png",
         word: "clock",
         endingPhonetic: "\u0251k",
         endingOrthographic: "ock",
@@ -170,7 +171,7 @@ var require_stimuli = __commonJS({
         target_frequency: 3.681
       },
       {
-        img: "../img/blue.png",
+        img: "../img/cone.png",
         word: "cone",
         endingPhonetic: "o\u028An",
         endingOrthographic: "one",
@@ -178,7 +179,7 @@ var require_stimuli = __commonJS({
         target_frequency: 3.681
       },
       {
-        img: "../img/blue.png",
+        img: "../img/crab.png",
         word: "crab",
         endingPhonetic: "\xE6b",
         endingOrthographic: "ab",
@@ -186,7 +187,7 @@ var require_stimuli = __commonJS({
         target_frequency: 3.681
       },
       {
-        img: "../img/blue.png",
+        img: "../img/crane.png",
         word: "crane",
         endingPhonetic: "e\u026An",
         endingOrthographic: "ane",
@@ -194,7 +195,7 @@ var require_stimuli = __commonJS({
         target_frequency: 3.681
       },
       {
-        img: "../img/blue.png",
+        img: "../img/dart.png",
         word: "dart",
         endingPhonetic: "\u0251\u0279t",
         endingOrthographic: "art",
@@ -202,7 +203,7 @@ var require_stimuli = __commonJS({
         target_frequency: 3.681
       },
       {
-        img: "../img/blue.png",
+        img: "../img/deer.png",
         word: "deer",
         endingPhonetic: "\u026A\u0279",
         endingOrthographic: "eer",
@@ -210,7 +211,7 @@ var require_stimuli = __commonJS({
         target_frequency: 3.681
       },
       {
-        img: "../img/blue.png",
+        img: "../img/door.png",
         word: "door",
         endingPhonetic: "\u0254\u0279",
         endingOrthographic: "oor",
@@ -221,55 +222,6 @@ var require_stimuli = __commonJS({
   }
 });
 var stimuli = require_stimuli();
-function buildPairingMap() {
-  let pairingMap = [];
-  for (let i = 0; i < stimuli.length; i++) {
-    for (let j = 0; j < stimuli.length; j++) {
-      if (pairingMap.map((item) => item.words).includes(`${stimuli[j].word}-${stimuli[i].word}`) || i === j) {
-        continue;
-      } else {
-        pairingMap.push(
-          {
-            words: `${stimuli[i].word}-${stimuli[j].word}`,
-            pairing: [stimuli[i], stimuli[j]],
-            phonetics: [stimuli[i].endingPhonetic, stimuli[j].endingPhonetic],
-            orthographics: [stimuli[i].endingOrthographic, stimuli[j].endingOrthogaphic],
-            html: `<div style='display:flex;align-items:center;justify-content:center;'> 
-                            <img src=${stimuli[i].img} style='width:50'></img>
-                            <p>+</p>
-                            <img src=${stimuli[j].img} style='width:50'></img>
-                        </div>`,
-            // problem with the stimuli not appearing side-by-side
-            // set this up so that stimuli are randomized left/right; this might end up refactoring the html in the grabStimuli function
-            rhymePhonetic: stimuli[i].endingPhonetic === stimuli[j].endingPhonetic ? true : false,
-            rhymeOrthographic: stimuli[i].endingOrthographic === stimuli[j].endingOrthographic ? true : false
-          }
-        );
-      }
-    }
-  }
-  console.log(pairingMap);
-  return pairingMap;
-}
-function grabStimuli(pairingMap, phonetic, rhymePhonetic, rhymeOrthographic) {
-  console.log(`Variables are ${phonetic}, ${rhymePhonetic}, ${rhymeOrthographic}`);
-  var pairings = pairingMap.filter((item) => item.phonetics.includes(phonetic));
-  console.log(pairings);
-  if (rhymePhonetic === true) {
-    pairings = pairings.filter((item) => item.rhymePhonetic === true);
-    if (rhymeOrthographic === true) {
-      pairings = pairings.filter((item) => item.rhymeOrthographic === true);
-    } else {
-      pairings = pairings.filter((item) => item.rhymeOrthographic === false);
-    }
-  } else {
-    pairings = pairings.filter((item) => item.rhymePhonetic === false);
-  }
-  console.log(pairings);
-  const trialStimulus = pairings[Math.floor(Math.random() * pairings.length)];
-  console.log(trialStimulus.words);
-  return trialStimulus.html;
-}
 function checkOptions(options, phoneticsRhyme, orthographicsRhyme) {
   if (options.percentPhonetic + options.percentOrtho > 1) {
     throw new Error(`
@@ -308,6 +260,36 @@ For now, we will make up the difference with duplicates.
         `);
   }
   return options;
+}
+function buildPairingMap() {
+  let pairingMap = [];
+  for (let i = 0; i < stimuli.length; i++) {
+    for (let j = 0; j < stimuli.length; j++) {
+      if (pairingMap.map((item) => item.words).includes(`${stimuli[j].word}-${stimuli[i].word}`) || i === j) {
+        continue;
+      } else {
+        pairingMap.push(
+          {
+            words: `${stimuli[i].word}-${stimuli[j].word}`,
+            pairing: [stimuli[i], stimuli[j]],
+            phonetics: [stimuli[i].endingPhonetic, stimuli[j].endingPhonetic],
+            orthographics: [stimuli[i].endingOrthographic, stimuli[j].endingOrthogaphic],
+            html: `<div style='display:flex;align-items:center;justify-content:center;'> 
+                            <img src=${stimuli[i].img} style='width:50'></img>
+                            <p>+</p>
+                            <img src=${stimuli[j].img} style='width:50'></img>
+                        </div>`,
+            // problem with the stimuli not appearing side-by-side
+            // set this up so that stimuli are randomized left/right; this might end up refactoring the html in the grabStimuli function
+            rhymePhonetic: stimuli[i].endingPhonetic === stimuli[j].endingPhonetic ? true : false,
+            rhymeOrthographic: stimuli[i].endingOrthographic === stimuli[j].endingOrthographic ? true : false
+          }
+        );
+      }
+    }
+  }
+  console.log(pairingMap);
+  return pairingMap;
 }
 function buildTimelineVariables(pairingMap, options) {
   console.log("building timeline variables");
@@ -419,22 +401,27 @@ function buildTimelineVariables(pairingMap, options) {
   console.log("done");
   return timelineVariables;
 }
-function createTimeline(jsPsych, options = {}) {
-  var main_timeline = [];
-  const defaultOptions = {
-    numTrials: 10,
-    // this parameter bugs when percentPhonetic or percentOrtho can't be met by available stimuli
-    duplicatesAllowed: false,
-    percentPhonetic: 0.5,
-    percentOrtho: 0.3
-  };
-  options = __spreadValues(__spreadValues({}, defaultOptions), options);
-  const pairingMap = buildPairingMap();
-  let variables = buildTimelineVariables(pairingMap, options);
+function buildIntro(jsPsych, options) {
+  if (options.intro == true) {
+    const intro = {
+      type: jsPsychInstructions,
+      pages: [`<h2>Rhyme Judgment Task</h2>
+                    ${options.text}`],
+      allow_keys: false,
+      data: { experiment: "task_switching" },
+      show_clickable_nav: true
+    };
+    return intro;
+  } else {
+    return {};
+  }
+}
+function buildTrials(jsPsych, pairingMap, variables) {
   const trial = {
     type: JsPsychHTMLKeyboardResponse,
     stimulus: () => grabStimuli(
       pairingMap,
+      // refactor this into yet another timeline variable? Of just the relevant pairings?
       jsPsych.evaluateTimelineVariable("endingPhonetic"),
       jsPsych.evaluateTimelineVariable("rhymePhonetic"),
       jsPsych.evaluateTimelineVariable("rhymeOrthographic")
@@ -448,7 +435,45 @@ function createTimeline(jsPsych, options = {}) {
     timeline_variables: variables,
     randomize_order: false
   };
-  main_timeline.push(trial_timeline);
+  return trial_timeline;
+}
+function grabStimuli(pairingMap, phonetic, rhymePhonetic, rhymeOrthographic) {
+  console.log(`Variables are ${phonetic}, ${rhymePhonetic}, ${rhymeOrthographic}`);
+  var pairings = pairingMap.filter((item) => item.phonetics.includes(phonetic));
+  console.log(pairings);
+  if (rhymePhonetic === true) {
+    pairings = pairings.filter((item) => item.rhymePhonetic === true);
+    if (rhymeOrthographic === true) {
+      pairings = pairings.filter((item) => item.rhymeOrthographic === true);
+    } else {
+      pairings = pairings.filter((item) => item.rhymeOrthographic === false);
+    }
+  } else {
+    pairings = pairings.filter((item) => item.rhymePhonetic === false);
+  }
+  console.log(pairings);
+  const trialStimulus = pairings[Math.floor(Math.random() * pairings.length)];
+  console.log(trialStimulus.words);
+  return trialStimulus.html;
+}
+function createTimeline(jsPsych, options = {}) {
+  var main_timeline = [];
+  const defaultOptions = {
+    introOptions: {
+      intro: true,
+      text: "This is an experiment investigating rhyme judgments. <p>You will see two images at a time and have to judge whether the names of the items rhyme or not. </p><p>For example, if you see a picture of a LAMP and a picture of a CAMP, you should respond that they rhyme (press UP arrow). If you see a picture of a BEAR and a picture of a CUP, you should respond that they <b>do not</b> rhyme (press DOWN arrow).</p><p>All the words are short (one syllable). Please make the judgments as quickly and accurately as possible.<p>Press UP arrow key if you think they rhyme, press DOWN arrow key if you think they do not rhyme.<p>Click the button below to begin.</p>"
+    },
+    numTrials: 10,
+    // this parameter bugs when percentPhonetic or percentOrtho can't be met by available stimuli
+    duplicatesAllowed: false,
+    percentPhonetic: 0.5,
+    percentOrtho: 0.3
+  };
+  options = __spreadValues(__spreadValues({}, defaultOptions), options);
+  const pairingMap = buildPairingMap();
+  let variables = buildTimelineVariables(pairingMap, options);
+  main_timeline.push(buildIntro(jsPsych, options.introOptions));
+  main_timeline.push(buildTrials(jsPsych, pairingMap, variables));
   return main_timeline;
 }
 var timelineUnits = {};

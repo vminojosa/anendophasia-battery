@@ -3123,75 +3123,764 @@ var jsPsychTimelineAnendophasiaTaskSwitching = (function (exports) {
     _SurveyTextPlugin.info = info;
   })();
 
-  // src/index.ts
-  function buildBlockVariables(n_trials, startWith) {
-    var timelineVariables = [];
-    for (var i = 0; i < n_trials; i++) {
-      if (i === 0) {
-        var timelineVariable = {};
-        timelineVariable.operation = startWith;
-      } else {
-        var timelineVariable = {};
-        timelineVariable.operation = timelineVariables[i - 1].operation === "addition" ? "subtraction" : "addition";
+  // node_modules/@jspsych/plugin-instructions/dist/index.js
+  var version2 = "2.1.0";
+  var info2 = {
+    name: "instructions",
+    version: version2,
+    parameters: {
+      /** Each element of the array is the content for a single page. Each page should be an HTML-formatted string.  */
+      pages: {
+        type: ParameterType.HTML_STRING,
+        default: void 0,
+        array: true
+      },
+      /** This is the key that the participant can press in order to advance to the next page. This key should be
+       * specified as a string (e.g., `'a'`, `'ArrowLeft'`, `' '`, `'Enter'`). */
+      key_forward: {
+        type: ParameterType.KEY,
+        default: "ArrowRight"
+      },
+      /** This is the key that the participant can press to return to the previous page. This key should be specified as a
+       * string (e.g., `'a'`, `'ArrowLeft'`, `' '`, `'Enter'`). */
+      key_backward: {
+        type: ParameterType.KEY,
+        default: "ArrowLeft"
+      },
+      /** If true, the participant can return to previous pages of the instructions. If false, they may only advace to the next page. */
+      allow_backward: {
+        type: ParameterType.BOOL,
+        default: true
+      },
+      /** If `true`, the participant can use keyboard keys to navigate the pages. If `false`, they may not. */
+      allow_keys: {
+        type: ParameterType.BOOL,
+        default: true
+      },
+      /** If true, then a `Previous` and `Next` button will be displayed beneath the instructions. Participants can
+       * click the buttons to navigate. */
+      show_clickable_nav: {
+        type: ParameterType.BOOL,
+        default: false
+      },
+      /** If true, and clickable navigation is enabled, then Page x/y will be shown between the nav buttons. */
+      show_page_number: {
+        type: ParameterType.BOOL,
+        default: false
+      },
+      /** The text that appears before x/y pages displayed when show_page_number is true.*/
+      page_label: {
+        type: ParameterType.STRING,
+        default: "Page"
+      },
+      /** The text that appears on the button to go backwards. */
+      button_label_previous: {
+        type: ParameterType.STRING,
+        default: "Previous"
+      },
+      /** The text that appears on the button to go forwards. */
+      button_label_next: {
+        type: ParameterType.STRING,
+        default: "Next"
+      },
+      /** The callback function when page changes */
+      on_page_change: {
+        type: ParameterType.FUNCTION,
+        pretty_name: "Page change callback",
+        default: function(current_page) {
+        }
       }
-      timelineVariables.push(timelineVariable);
+    },
+    data: {
+      /** An array containing the order of pages the participant viewed (including when the participant returned to previous pages)
+       *  and the time spent viewing each page. Each object in the array represents a single page view,
+       * and contains keys called `page_index` (the page number, starting with 0) and `viewing_time`
+       * (duration of the page view). This will be encoded as a JSON string when data is saved using the `.json()` or `.csv()`
+       * functions.
+       */
+      view_history: {
+        type: ParameterType.COMPLEX,
+        array: true,
+        nested: {
+          page_index: {
+            type: ParameterType.INT
+          },
+          viewing_time: {
+            type: ParameterType.INT
+          }
+        }
+      },
+      /** The response time in milliseconds for the participant to view all of the pages. */
+      rt: {
+        type: ParameterType.INT
+      }
+    },
+    // prettier-ignore
+    citations: {
+      "apa": "de Leeuw, J. R., Gilbert, R. A., & Luchterhandt, B. (2023). jsPsych: Enabling an Open-Source Collaborative Ecosystem of Behavioral Experiments. Journal of Open Source Software, 8(85), 5351. https://doi.org/10.21105/joss.05351 ",
+      "bibtex": '@article{Leeuw2023jsPsych, 	author = {de Leeuw, Joshua R. and Gilbert, Rebecca A. and Luchterhandt, Bj{\\" o}rn}, 	journal = {Journal of Open Source Software}, 	doi = {10.21105/joss.05351}, 	issn = {2475-9066}, 	number = {85}, 	year = {2023}, 	month = {may 11}, 	pages = {5351}, 	publisher = {Open Journals}, 	title = {jsPsych: Enabling an {Open}-{Source} {Collaborative} {Ecosystem} of {Behavioral} {Experiments}}, 	url = {https://joss.theoj.org/papers/10.21105/joss.05351}, 	volume = {8}, }  '
     }
-    return timelineVariables;
-  }
-  function buildCueVariables(cueOrder) {
-    var variables = [];
-    for (var i = 0; i < cueOrder.length; i++) {
-      variables.push({ cue: cueOrder[i] });
+  };
+  var _InstructionsPlugin = class {
+    constructor(jsPsych) {
+      this.jsPsych = jsPsych;
     }
-    console.log(variables);
+    trial(display_element, trial) {
+      var current_page = 0;
+      var view_history = [];
+      var start_time = performance.now();
+      var last_page_update_time = start_time;
+      function btnListener() {
+        if (this.id === "jspsych-instructions-back") {
+          back();
+        } else if (this.id === "jspsych-instructions-next") {
+          next();
+        }
+      }
+      function show_current_page() {
+        var html = trial.pages[current_page];
+        var pagenum_display = "";
+        if (trial.show_page_number) {
+          pagenum_display = "<span style='margin: 0 1em;' class='jspsych-instructions-pagenum'>" + trial.page_label + " " + (current_page + 1) + "/" + trial.pages.length + "</span>";
+        }
+        if (trial.show_clickable_nav) {
+          var nav_html = "<div class='jspsych-instructions-nav' style='padding: 10px 0px;'>";
+          if (trial.allow_backward) {
+            var allowed = current_page > 0 ? "" : "disabled='disabled'";
+            nav_html += "<button id='jspsych-instructions-back' class='jspsych-btn' style='margin-right: 5px;' " + allowed + ">&lt; " + trial.button_label_previous + "</button>";
+          }
+          if (trial.pages.length > 1 && trial.show_page_number) {
+            nav_html += pagenum_display;
+          }
+          nav_html += "<button id='jspsych-instructions-next' class='jspsych-btn'style='margin-left: 5px;'>" + trial.button_label_next + " &gt;</button></div>";
+          html += nav_html;
+          display_element.innerHTML = html;
+          if (current_page != 0 && trial.allow_backward) {
+            display_element.querySelector("#jspsych-instructions-back").addEventListener("click", btnListener, { once: true });
+          }
+          display_element.querySelector("#jspsych-instructions-next").addEventListener("click", btnListener, { once: true });
+        } else {
+          if (trial.show_page_number && trial.pages.length > 1) {
+            html += "<div class='jspsych-instructions-pagenum'>" + pagenum_display + "</div>";
+          }
+          display_element.innerHTML = html;
+        }
+      }
+      function next() {
+        add_current_page_to_view_history();
+        current_page++;
+        if (current_page >= trial.pages.length) {
+          endTrial();
+        } else {
+          show_current_page();
+        }
+        trial.on_page_change(current_page);
+      }
+      function back() {
+        add_current_page_to_view_history();
+        current_page--;
+        show_current_page();
+        trial.on_page_change(current_page);
+      }
+      function add_current_page_to_view_history() {
+        var current_time = performance.now();
+        var page_view_time = Math.round(current_time - last_page_update_time);
+        view_history.push({
+          page_index: current_page,
+          viewing_time: page_view_time
+        });
+        last_page_update_time = current_time;
+      }
+      const endTrial = () => {
+        if (trial.allow_keys) {
+          this.jsPsych.pluginAPI.cancelKeyboardResponse(keyboard_listener);
+        }
+        var trial_data = {
+          view_history,
+          rt: Math.round(performance.now() - start_time)
+        };
+        this.jsPsych.finishTrial(trial_data);
+      };
+      const after_response = (info22) => {
+        keyboard_listener = this.jsPsych.pluginAPI.getKeyboardResponse({
+          callback_function: after_response,
+          valid_responses: [trial.key_forward, trial.key_backward],
+          rt_method: "performance",
+          persist: false,
+          allow_held_key: false
+        });
+        if (this.jsPsych.pluginAPI.compareKeys(info22.key, trial.key_backward)) {
+          if (current_page !== 0 && trial.allow_backward) {
+            back();
+          }
+        }
+        if (this.jsPsych.pluginAPI.compareKeys(info22.key, trial.key_forward)) {
+          next();
+        }
+      };
+      show_current_page();
+      if (trial.allow_keys) {
+        var keyboard_listener = this.jsPsych.pluginAPI.getKeyboardResponse({
+          callback_function: after_response,
+          valid_responses: [trial.key_forward, trial.key_backward],
+          rt_method: "performance",
+          persist: false
+        });
+      }
+    }
+    simulate(trial, simulation_mode, simulation_options, load_callback) {
+      if (simulation_mode == "data-only") {
+        load_callback();
+        this.simulate_data_only(trial, simulation_options);
+      }
+      if (simulation_mode == "visual") {
+        this.simulate_visual(trial, simulation_options, load_callback);
+      }
+    }
+    create_simulation_data(trial, simulation_options) {
+      var _a, _b, _c, _d, _e, _f;
+      let curr_page = 0;
+      let rt = 0;
+      let view_history = [];
+      if (!((_a = simulation_options.data) == null ? void 0 : _a.view_history) && !((_b = simulation_options.data) == null ? void 0 : _b.rt)) {
+        while (curr_page !== trial.pages.length) {
+          const view_time = Math.round(
+            this.jsPsych.randomization.sampleExGaussian(3e3, 300, 1 / 300)
+          );
+          view_history.push({ page_index: curr_page, viewing_time: view_time });
+          rt += view_time;
+          if (curr_page == 0 || !trial.allow_backward) {
+            curr_page++;
+          } else {
+            if (this.jsPsych.randomization.sampleBernoulli(0.9) == 1) {
+              curr_page++;
+            } else {
+              curr_page--;
+            }
+          }
+        }
+      }
+      if (!((_c = simulation_options.data) == null ? void 0 : _c.view_history) && ((_d = simulation_options.data) == null ? void 0 : _d.rt)) {
+        rt = simulation_options.data.rt;
+        while (curr_page !== trial.pages.length) {
+          view_history.push({ page_index: curr_page, viewing_time: null });
+          if (curr_page == 0 || !trial.allow_backward) {
+            curr_page++;
+          } else {
+            if (this.jsPsych.randomization.sampleBernoulli(0.9) == 1) {
+              curr_page++;
+            } else {
+              curr_page--;
+            }
+          }
+        }
+        const avg_rt_per_page = simulation_options.data.rt / view_history.length;
+        let total_time = 0;
+        for (const page of view_history) {
+          const t = Math.round(
+            this.jsPsych.randomization.sampleExGaussian(
+              avg_rt_per_page,
+              avg_rt_per_page / 10,
+              1 / (avg_rt_per_page / 10)
+            )
+          );
+          page.viewing_time = t;
+          total_time += t;
+        }
+        const diff = simulation_options.data.rt - total_time;
+        const diff_per_page = Math.round(diff / view_history.length);
+        for (const page of view_history) {
+          page.viewing_time += diff_per_page;
+        }
+      }
+      if (((_e = simulation_options.data) == null ? void 0 : _e.view_history) && !((_f = simulation_options.data) == null ? void 0 : _f.rt)) {
+        view_history = simulation_options.data.view_history;
+        rt = 0;
+        for (const page of simulation_options.data.view_history) {
+          rt += page.viewing_time;
+        }
+      }
+      const default_data = {
+        view_history,
+        rt
+      };
+      const data = this.jsPsych.pluginAPI.mergeSimulationData(default_data, simulation_options);
+      this.jsPsych.pluginAPI.ensureSimulationDataConsistency(trial, data);
+      return data;
+    }
+    simulate_data_only(trial, simulation_options) {
+      const data = this.create_simulation_data(trial, simulation_options);
+      this.jsPsych.finishTrial(data);
+    }
+    simulate_visual(trial, simulation_options, load_callback) {
+      const data = this.create_simulation_data(trial, simulation_options);
+      const display_element = this.jsPsych.getDisplayElement();
+      this.trial(display_element, trial);
+      load_callback();
+      const advance = (rt) => {
+        if (trial.allow_keys) {
+          this.jsPsych.pluginAPI.pressKey(trial.key_forward, rt);
+        } else if (trial.show_clickable_nav) {
+          this.jsPsych.pluginAPI.clickTarget(
+            display_element.querySelector("#jspsych-instructions-next"),
+            rt
+          );
+        }
+      };
+      const backup = (rt) => {
+        if (trial.allow_keys) {
+          this.jsPsych.pluginAPI.pressKey(trial.key_backward, rt);
+        } else if (trial.show_clickable_nav) {
+          this.jsPsych.pluginAPI.clickTarget(
+            display_element.querySelector("#jspsych-instructions-back"),
+            rt
+          );
+        }
+      };
+      let curr_page = 0;
+      let t = 0;
+      for (let i = 0; i < data.view_history.length; i++) {
+        if (i == data.view_history.length - 1) {
+          advance(t + data.view_history[i].viewing_time);
+        } else {
+          if (data.view_history[i + 1].page_index > curr_page) {
+            advance(t + data.view_history[i].viewing_time);
+          }
+          if (data.view_history[i + 1].page_index < curr_page) {
+            backup(t + data.view_history[i].viewing_time);
+          }
+          t += data.view_history[i].viewing_time;
+          curr_page = data.view_history[i + 1].page_index;
+        }
+      }
+    }
+  };
+  var InstructionsPlugin = _InstructionsPlugin;
+  (() => {
+    _InstructionsPlugin.info = info2;
+  })();
+
+  // node_modules/@jspsych/plugin-html-keyboard-response/dist/index.js
+  var version3 = "2.1.0";
+  var info3 = {
+    name: "html-keyboard-response",
+    version: version3,
+    parameters: {
+      /**
+       * The string to be displayed.
+       */
+      stimulus: {
+        type: ParameterType.HTML_STRING,
+        default: void 0
+      },
+      /**
+       * This array contains the key(s) that the participant is allowed to press in order to respond
+       * to the stimulus. Keys should be specified as characters (e.g., `'a'`, `'q'`, `' '`, `'Enter'`, `'ArrowDown'`) - see
+       * {@link https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values this page}
+       * and
+       * {@link https://www.freecodecamp.org/news/javascript-keycode-list-keypress-event-key-codes/ this page (event.key column)}
+       * for more examples. Any key presses that are not listed in the
+       * array will be ignored. The default value of `"ALL_KEYS"` means that all keys will be accepted as valid responses.
+       * Specifying `"NO_KEYS"` will mean that no responses are allowed.
+       */
+      choices: {
+        type: ParameterType.KEYS,
+        default: "ALL_KEYS"
+      },
+      /**
+       * This string can contain HTML markup. Any content here will be displayed below the stimulus.
+       * The intention is that it can be used to provide a reminder about the action the participant
+       * is supposed to take (e.g., which key to press).
+       */
+      prompt: {
+        type: ParameterType.HTML_STRING,
+        default: null
+      },
+      /**
+       * How long to display the stimulus in milliseconds. The visibility CSS property of the stimulus
+       * will be set to `hidden` after this time has elapsed. If this is null, then the stimulus will
+       * remain visible until the trial ends.
+       */
+      stimulus_duration: {
+        type: ParameterType.INT,
+        default: null
+      },
+      /**
+       * How long to wait for the participant to make a response before ending the trial in milliseconds.
+       * If the participant fails to make a response before this timer is reached, the participant's response
+       * will be recorded as null for the trial and the trial will end. If the value of this parameter is null,
+       * then the trial will wait for a response indefinitely.
+       */
+      trial_duration: {
+        type: ParameterType.INT,
+        default: null
+      },
+      /**
+       * If true, then the trial will end whenever the participant makes a response (assuming they make their
+       * response before the cutoff specified by the trial_duration parameter). If false, then the trial will
+       * continue until the value for trial_duration is reached. You can set this parameter to false to force
+       * the participant to view a stimulus for a fixed amount of time, even if they respond before the time is complete.
+       */
+      response_ends_trial: {
+        type: ParameterType.BOOL,
+        default: true
+      }
+    },
+    data: {
+      /** Indicates which key the participant pressed. */
+      response: {
+        type: ParameterType.STRING
+      },
+      /** The response time in milliseconds for the participant to make a response. The time is measured from when the stimulus first appears on the screen until the participant's response. */
+      rt: {
+        type: ParameterType.INT
+      },
+      /** The HTML content that was displayed on the screen. */
+      stimulus: {
+        type: ParameterType.STRING
+      }
+    },
+    // prettier-ignore
+    citations: {
+      "apa": "de Leeuw, J. R., Gilbert, R. A., & Luchterhandt, B. (2023). jsPsych: Enabling an Open-Source Collaborative Ecosystem of Behavioral Experiments. Journal of Open Source Software, 8(85), 5351. https://doi.org/10.21105/joss.05351 ",
+      "bibtex": '@article{Leeuw2023jsPsych, 	author = {de Leeuw, Joshua R. and Gilbert, Rebecca A. and Luchterhandt, Bj{\\" o}rn}, 	journal = {Journal of Open Source Software}, 	doi = {10.21105/joss.05351}, 	issn = {2475-9066}, 	number = {85}, 	year = {2023}, 	month = {may 11}, 	pages = {5351}, 	publisher = {Open Journals}, 	title = {jsPsych: Enabling an {Open}-{Source} {Collaborative} {Ecosystem} of {Behavioral} {Experiments}}, 	url = {https://joss.theoj.org/papers/10.21105/joss.05351}, 	volume = {8}, }  '
+    }
+  };
+  var _HtmlKeyboardResponsePlugin = class {
+    constructor(jsPsych) {
+      this.jsPsych = jsPsych;
+    }
+    trial(display_element, trial) {
+      var new_html = '<div id="jspsych-html-keyboard-response-stimulus">' + trial.stimulus + "</div>";
+      if (trial.prompt !== null) {
+        new_html += trial.prompt;
+      }
+      display_element.innerHTML = new_html;
+      var response = {
+        rt: null,
+        key: null
+      };
+      const end_trial = () => {
+        if (typeof keyboardListener !== "undefined") {
+          this.jsPsych.pluginAPI.cancelKeyboardResponse(keyboardListener);
+        }
+        var trial_data = {
+          rt: response.rt,
+          stimulus: trial.stimulus,
+          response: response.key
+        };
+        this.jsPsych.finishTrial(trial_data);
+      };
+      var after_response = (info22) => {
+        display_element.querySelector("#jspsych-html-keyboard-response-stimulus").className += " responded";
+        if (response.key == null) {
+          response = info22;
+        }
+        if (trial.response_ends_trial) {
+          end_trial();
+        }
+      };
+      if (trial.choices != "NO_KEYS") {
+        var keyboardListener = this.jsPsych.pluginAPI.getKeyboardResponse({
+          callback_function: after_response,
+          valid_responses: trial.choices,
+          rt_method: "performance",
+          persist: false,
+          allow_held_key: false
+        });
+      }
+      if (trial.stimulus_duration !== null) {
+        this.jsPsych.pluginAPI.setTimeout(() => {
+          display_element.querySelector(
+            "#jspsych-html-keyboard-response-stimulus"
+          ).style.visibility = "hidden";
+        }, trial.stimulus_duration);
+      }
+      if (trial.trial_duration !== null) {
+        this.jsPsych.pluginAPI.setTimeout(end_trial, trial.trial_duration);
+      }
+    }
+    simulate(trial, simulation_mode, simulation_options, load_callback) {
+      if (simulation_mode == "data-only") {
+        load_callback();
+        this.simulate_data_only(trial, simulation_options);
+      }
+      if (simulation_mode == "visual") {
+        this.simulate_visual(trial, simulation_options, load_callback);
+      }
+    }
+    create_simulation_data(trial, simulation_options) {
+      const default_data = {
+        stimulus: trial.stimulus,
+        rt: this.jsPsych.randomization.sampleExGaussian(500, 50, 1 / 150, true),
+        response: this.jsPsych.pluginAPI.getValidKey(trial.choices)
+      };
+      const data = this.jsPsych.pluginAPI.mergeSimulationData(default_data, simulation_options);
+      this.jsPsych.pluginAPI.ensureSimulationDataConsistency(trial, data);
+      return data;
+    }
+    simulate_data_only(trial, simulation_options) {
+      const data = this.create_simulation_data(trial, simulation_options);
+      this.jsPsych.finishTrial(data);
+    }
+    simulate_visual(trial, simulation_options, load_callback) {
+      const data = this.create_simulation_data(trial, simulation_options);
+      const display_element = this.jsPsych.getDisplayElement();
+      this.trial(display_element, trial);
+      load_callback();
+      if (data.rt !== null) {
+        this.jsPsych.pluginAPI.pressKey(data.response, data.rt);
+      }
+    }
+  };
+  var HtmlKeyboardResponsePlugin = _HtmlKeyboardResponsePlugin;
+  (() => {
+    _HtmlKeyboardResponsePlugin.info = info3;
+  })();
+
+  // src/index.ts
+  var TrialTemplates = class {
+    constructor(jsPsych) {
+      this.jsPsych = jsPsych;
+    }
+    Test(cueInfo) {
+      return {
+        type: SurveyTextPlugin,
+        questions: () => [{
+          prompt: `
+                <div style="font-size:60px; padding:50px; ${this.jsPsych.evaluateTimelineVariable("cue") === "color" ? this.jsPsych.evaluateTimelineVariable("operation") == "addition" ? `color:${cueInfo.cueColors["add"]}` : `color:${cueInfo.cueColors["sub"]}` : ""}">
+                    ${this.jsPsych.evaluateTimelineVariable("number")}
+                    ${this.jsPsych.evaluateTimelineVariable("cue") === "sign" ? this.jsPsych.evaluateTimelineVariable("operation") == "addition" ? cueInfo.cueSigns["add"] : cueInfo.cueSigns["sub"] : ""}
+                </div>`,
+          columns: 2,
+          required: true,
+          name: "question"
+        }],
+        button_label: "Enter",
+        data: {
+          correct_response: () => {
+            console.log("operation for this trial is " + this.jsPsych.evaluateTimelineVariable("operation"));
+            const correctResponse = this.jsPsych.evaluateTimelineVariable("operation") === "addition" ? this.jsPsych.evaluateTimelineVariable("number") + 3 : this.jsPsych.evaluateTimelineVariable("number") - 3;
+            return correctResponse;
+          }
+        },
+        on_finish: function(data) {
+          data.correct = parseInt(data.response.question) === data.correct_response;
+        }
+      };
+    }
+    Feedback() {
+      return {
+        timeline: [{
+          type: HtmlKeyboardResponsePlugin,
+          stimulus: () => {
+            const lastTrialData = this.jsPsych.data.get().last(1).values()[0];
+            if (lastTrialData.correct) {
+              return '<div style="font-size:40px; color:green; padding:50px;">Correct!</div>';
+            } else {
+              return `<div style="font-size:40px; color:red; padding:50px;">Incorrect. The correct answer was ${lastTrialData.correct_response}.</div>`;
+            }
+          },
+          choices: "NO_KEYS",
+          trial_duration: 1e3
+        }]
+      };
+    }
+    Instructions() {
+      return {
+        timeline: [{
+          type: InstructionsPlugin,
+          pages: this.jsPsych.timelineVariable("text"),
+          allow_keys: false,
+          data: { experiment: "task_switching" },
+          show_clickable_nav: true
+        }],
+        conditional_function: () => {
+          return this.jsPsych.evaluateTimelineVariable("include") == true;
+        }
+      };
+    }
+  };
+  function buildSetVariables(startWith, n_trials, switching) {
+    console.log("beginning of buildSetVariables logs");
+    console.log(`args are:
+n_trials is ${n_trials},
+startWith is ${startWith},
+switching is ${switching}`);
+    var variables = Array(n_trials).fill(null).map(() => {
+      return {
+        number: Math.floor(Math.random() * (96 - 13)) + 13,
+        operation: startWith
+      };
+    });
+    if (switching == true) {
+      for (var j = 1; j < variables.length; j++) {
+        const lastOperation = variables[j - 1].operation;
+        variables[j].operation = lastOperation === "addition" ? "subtraction" : "addition";
+      }
+    }
+    console.log("end of buildSetVariables logs");
     return variables;
+  }
+  function buildTestSubtimeline(jsPsych, nTrials, cue, starting_operation, switching, cueInfo, instructOptions) {
+    console.log("beginning of buildSet logs");
+    console.log(`args are:
+        
+nTrials is ${nTrials},
+        
+cue is ${cue},
+        
+starting_operation is ${starting_operation},
+        
+switch is ${switching},
+        
+cueInfo is ${JSON.stringify(cueInfo)}`);
+    const trialTemplates = new TrialTemplates(jsPsych);
+    const instructVars = [instructOptions.end_feedback];
+    console.log("instruct vars are " + JSON.stringify(instructVars));
+    var variables = buildSetVariables(
+      starting_operation,
+      nTrials,
+      switching
+    ).map((trial) => __spreadValues({ cue }, trial));
+    console.log("variables for block are " + JSON.stringify(variables));
+    const setTrials = {
+      timeline: [trialTemplates.Test(cueInfo)],
+      timeline_variables: variables
+    };
+    var setSubtimeline = {
+      timeline: [trialTemplates.Instructions(), setTrials],
+      timeline_variables: instructVars
+    };
+    console.log("end of buildSet logs");
+    return setSubtimeline;
+  }
+  function buildDemoSubtimeline(jsPsych, nTrials, cue, starting_operation, switching, cueInfo, instructOptions) {
+    const trialTemplates = new TrialTemplates(jsPsych);
+    var instructVars = [];
+    if (switching == false) {
+      instructVars = [instructOptions.tasks[starting_operation]];
+    } else {
+      instructVars = [instructOptions.tasks["switch_" + cue]];
+    }
+    var variables = buildSetVariables(
+      starting_operation,
+      nTrials,
+      switching
+    ).map((trial) => __spreadValues({ cue }, trial));
+    const setTrials = {
+      timeline: [trialTemplates.Test(cueInfo), trialTemplates.Feedback()],
+      timeline_variables: variables
+    };
+    var setSubtimeline = {
+      timeline: [trialTemplates.Instructions(), setTrials],
+      timeline_variables: instructVars
+    };
+    console.log("end of buildSet logs");
+    return setSubtimeline;
   }
   function createTimeline(jsPsych, options = {}) {
     var main_timeline = [];
+    const trialTemplates = new TrialTemplates(jsPsych);
     const defaultOptions = {
-      nTrials: 10,
-      cueOrder: ["sign", "color", "none"],
-      cueColors: { add: "green", sub: "red" },
-      cueSigns: { add: "+", sub: "-" }
+      // see if this can be factored out of the creatTimeline function and moved elsewhere / incrementalized
+      instructions: {
+        intro: {
+          include: true,
+          text: ["This is an experiment investigating how you switch between differen tasks. <p>You will see some simple addition and subtraction problems (adding or subtraction 3) that you have to solve as quickly as you can. </p><p>During an addition block, for example, you might see 35 to which you would answer 38 (35 + 3 = 38). <br>If you saw 35 during a subtraction block, you should answer 32 (35 - 3 = 32).</p><p>Sometimes there will just be problems of the same kind (i.e. only plus or only minus), and sometimes they will switch. You will get more instructions as you go along. <p>Use the number keys on your keyboard to answer the problems.<p>Click the button below to begin.</p>"]
+        },
+        tasks: {
+          addition: {
+            include: true,
+            text: ["<p>During the following block, you should add 3 to every number. First there will be 10 training trials with feedback, then 30 trials without."]
+          },
+          subtraction: {
+            include: true,
+            text: ["<p>During the following block, you should subtract 3 to every number. First there will be 10 training trials with feedback, then 30 trials without."]
+          },
+          switch_none: {
+            include: true,
+            text: ["<p>During the following block, you should switch between adding and subtracting 3. Start by adding 3 to the first number, then subtract 3 from the second, and so on.<p>There will be no cue indicating whether you have to add or subtract on a given trial, you will have to keep track of that yourself. </p><p>First there will be 10 training trials with feedback, then 30 trials without.</p>"]
+          },
+          switch_color: {
+            include: true,
+            text: ['<p>During the following block, you should switch between adding and subtracting 3. Start by adding 3 to the first number, then subtract 3 from the second, and so on.<p>If the number is written in <b style="color:red">red</b> you should add 3, if the number is written in  <b style="color:blue">blue</b> you should subtract 3.<p>First there will be 10 training trials with feedback, then 30 trials without.</p>']
+          },
+          switch_sign: {
+            include: true,
+            text: ['<p>During the following block, you should switch between adding and subtracting 3. Start by adding 3 to the first number, then subtract 3 from the second, and so on.<p>If the number is followed by a <b style="font-size:42px;">+</b> you should add 3, if the number followed by a <b style="font-size:42px;">-</b> you should subtract 3.<p>First there will be 10 training trials with feedback, then 30 trials without.</p>']
+          }
+        },
+        end_feedback: {
+          include: true,
+          text: ["<p>Now the real block begins. You will no longer receive feedback. Solve the problems as quickly as you can.</p>"]
+        }
+      },
+      control: {
+        switch: false,
+        starting_operation: ["addition", "subtraction"],
+        feedback: 5,
+        nTrials: 10,
+        cues: ["none", "none"]
+      },
+      test: {
+        switch: true,
+        starting_operation: ["addition", "addition", "addition"],
+        feedback: 5,
+        nTrials: 10,
+        cues: ["sign", "color", "none"]
+      },
+      cueInfo: {
+        // copy the way Cherrie set out a separate StimulusInfo Object for hearts-and-flowers
+        cueColors: { add: "green", sub: "red" },
+        cueSigns: { add: "+", sub: "-" }
+      }
     };
     options = __spreadValues(__spreadValues({}, defaultOptions), options);
-    const trial = {
-      type: SurveyTextPlugin,
-      questions: () => [{
-        prompt: `
-            <div style="font-size:60px; padding:50px; ${jsPsych.evaluateTimelineVariable("cue") === "color" ? jsPsych.evaluateTimelineVariable("operation") == "addition" ? `color:${options.cueColors["add"]}` : `color:${options.cueColors["sub"]}` : ""}">
-                ${Math.floor(Math.random() * (96 - 13)) + 13}
-                ${jsPsych.evaluateTimelineVariable("cue") === "sign" ? jsPsych.evaluateTimelineVariable("operation") == "addition" ? options.cueSigns["add"] : options.cueSigns["sub"] : ""}
-            </div>`,
-        columns: 2,
-        required: true,
-        name: "question"
-      }],
-      button_label: "Enter"
-    };
-    var control_block = {
-      timeline: [trial],
-      timeline_variables: [
-        { cue: "none" }
-      ],
-      repetitions: options.nTrials
-    };
-    var control_blocks = {
-      timeline: [control_block],
-      timeline_variables: [
-        { operation: "addition" },
-        { operation: "subtraction" }
-      ]
-    };
-    var switch_block = {
-      timeline: [trial],
-      timeline_variables: buildBlockVariables(options.nTrials, "addition")
-    };
-    var switch_blocks = {
-      timeline: [switch_block],
-      timeline_variables: buildCueVariables(options.cueOrder)
-    };
-    main_timeline.push(control_blocks, switch_blocks);
+    main_timeline.push({
+      timeline: [trialTemplates.Instructions()],
+      timeline_variables: [options.instructions.intro]
+    });
+    for (var cueIndex = 0; cueIndex < options.control.cues.length; cueIndex++) {
+      main_timeline.push(buildDemoSubtimeline(
+        jsPsych,
+        options.control.feedback,
+        options.control.cues[cueIndex],
+        options.control.starting_operation[cueIndex],
+        options.control.switch,
+        options.cueInfo,
+        options.instructions
+      ));
+      main_timeline.push(buildTestSubtimeline(
+        jsPsych,
+        options.control.nTrials,
+        options.control.cues[cueIndex],
+        options.control.starting_operation[cueIndex],
+        options.control.switch,
+        options.cueInfo,
+        options.instructions
+      ));
+    }
+    for (var cueIndex = 0; cueIndex < options.test.cues.length; cueIndex++) {
+      main_timeline.push(buildDemoSubtimeline(
+        jsPsych,
+        options.test.feedback,
+        options.test.cues[cueIndex],
+        options.test.starting_operation[cueIndex],
+        options.test.switch,
+        options.cueInfo,
+        options.instructions
+      ));
+      main_timeline.push(buildTestSubtimeline(
+        jsPsych,
+        options.test.nTrials,
+        options.test.cues[cueIndex],
+        options.test.starting_operation[cueIndex],
+        options.test.switch,
+        options.cueInfo,
+        options.instructions
+      ));
+    }
     return main_timeline;
   }
   var timelineUnits = {};
